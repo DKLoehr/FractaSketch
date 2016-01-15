@@ -3,6 +3,7 @@
 *.lo
 *.o
 *.obj
+obj/* # For good measure
 
 # Precompiled Headers
 *.gch
@@ -26,3 +27,11 @@
 *.exe
 *.out
 *.app
+
+# Everything in bin
+bin/*
+
+# Code::Blocks-specific files
+*.depend
+*.layout
+*.cbp
