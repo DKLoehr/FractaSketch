@@ -10,7 +10,7 @@ Line::Line(sf::RenderWindow* window, line_type type, sf::Vector2f start, sf::Vec
     m_type(type),
     m_start(start),
     m_finish(finish),
-    m_body(sf::Points,0)
+    m_body(sf::Lines,0)
 {
     ConstructBody();
 }
@@ -34,7 +34,7 @@ void Line::Draw(bool simple) {
 
 void Line::ConstructBody() {
     m_body.clear();
-    //m_body.setPrimitiveType(sf::Lines);
+    m_body.setPrimitiveType(sf::Lines);
     sf::Color color = sf::Color::Black;
 
     sf::Vector2f dist = m_finish - m_start;
@@ -69,7 +69,6 @@ void Line::ConstructBody() {
                                          + sf::Vector2f(dist.y*-ARROW_LENGTH, dist.x*ARROW_HEIGHT), color));
         return;
     case lt_base:
-        m_body.setPrimitiveType(sf::Points);
         arrow = m_finish - sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
                                   + sf::Vector2f(dist.y*ARROW_LENGTH, dist.x*-ARROW_HEIGHT);
         loc = m_start;
@@ -96,6 +95,7 @@ void Line::ConstructBody() {
         m_body.append(sf::Vertex(arrow, color));
         break;
     case lt_hidden:
+        m_body.setPrimitiveType(sf::Points);
         loc = m_start;
         dot = sf::Vector2f(dist.y, -dist.x) * (float)DOT_DIST;
         numDots = length / DOT_DIST / 2;
