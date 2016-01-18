@@ -47,6 +47,7 @@ void Line::ConstructBody() {
         m_body.append(sf::Vertex(m_start, color));
         m_body.append(sf::Vertex(m_finish, color));
     }
+
     switch(m_type) {
     case lt_topRight:
         m_body.append(sf::Vertex(m_finish, color));

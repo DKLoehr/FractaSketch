@@ -2,10 +2,7 @@
 #define LINE_H
 
 #include <SFML/Graphics.hpp>
-#define ARROW_HEIGHT 7.5
-#define ARROW_LENGTH 15.0
-#define DOT_SIZE 5 // Length of lines in dotted lines
-#define DOT_DIST 1 // Distance between dots in hidden lines
+#include "constants.h"
 
 // The first four types refer to the location of the arrow
 // on horizontal line in the positive x direction
