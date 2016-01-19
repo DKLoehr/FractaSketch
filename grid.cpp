@@ -31,7 +31,9 @@ void Grid::FillGrids() {
         }
     }
 
-    //Initialize the hex grid
+    // Initialize the hex grid by tracking the centers of each hex and
+    // drawing the 6 points around each
+    // TODO: Remove duplicates
     double dx = 3*HEX_SCALE,
            dy = sqrt(3)/2*HEX_SCALE;
     rows = m_size.y / dy;
@@ -48,12 +50,30 @@ void Grid::FillGrids() {
 }
 // Returns the point on the grid nearest to the input point.
 // If there is no grid, returns the input
+// TODO: The implementation for hex grids is ridiculously inefficient.
+// I haven't noticed a performance hit yet, but it should be dealt with
 sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
     if(m_type == gt_none)
         return point;
-    else if(m_type == gt_square) { // Can just round to nearest int
+    else if(m_type == gt_square) { // Round each coordinate to nearest multiple of SQUARE_SCALE
+        if(point.x < m_position.x) point.x = m_position.x;
+        if(point.x > (m_position+m_size).x) point.x = (m_position+m_size).x;
+        if(point.y < m_position.y) point.y = m_position.y;
+        if(point.y > (m_position+m_size).y) point.y = (m_position+m_size).y;
+        point.x = ((int)((point.x - m_position.x)/SQUARE_SCALE + .5))*SQUARE_SCALE + m_position.x;
+        point.y = ((int)((point.y - m_position.y)/SQUARE_SCALE + .5))*SQUARE_SCALE + m_position.y;
         return point;
     } else { // Hex grid
-        return point;
+        unsigned int minDist = -1;
+        sf::Vector2f minDistPoint = point;
+        for(int iii = 0; iii < m_grids[2].getVertexCount(); iii++) {
+            sf::Vector2f dist = m_grids[2][iii].position - point;
+            int length = sqrt(dist.x*dist.x + dist.y*dist.y);
+            if(length < minDist) {
+                minDist = length;
+                minDistPoint = m_grids[2][iii].position;
+            }
+        }
+        return minDistPoint;
     }
 }
