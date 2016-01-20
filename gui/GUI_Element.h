@@ -6,7 +6,7 @@
 
 class Runner;
 
-class GUI
+class GUI_Element
 {
 protected:
     bool isActive;
@@ -22,8 +22,8 @@ protected:
     sf::Text m_cap;
     sf::RectangleShape m_rectangle;
 public:
-    GUI();
-    GUI(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height);
+    GUI_Element();
+    GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height);
 
     void SetBoxColor(sf::Color c);
     void SetOutlineColor(sf::Color c);

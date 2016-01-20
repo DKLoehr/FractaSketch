@@ -1,9 +1,9 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "GUI.h"
+#include "GUI_Element.h"
 
-class Button : public GUI
+class Button : public GUI_Element
 {
 public:
     Button(); // Note: this doesn't take a window, and so won't create a useful object

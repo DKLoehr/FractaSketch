@@ -56,6 +56,7 @@ void Grid::FillGrids() {
         }
     }
 }
+
 // Returns the point on the grid nearest to the input point.
 // If there is no grid, returns the input
 // TODO: The implementation for hex grids is ridiculously inefficient.

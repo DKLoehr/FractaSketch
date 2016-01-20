@@ -1,9 +1,9 @@
 #ifndef INPUT_BOX_H
 #define INPUT_BOX_H
 
-#include "GUI.h"
+#include "GUI_Element.h"
 
-class InputBox : public GUI
+class InputBox : public GUI_Element
 {
 private:
     int m_cursorPos;

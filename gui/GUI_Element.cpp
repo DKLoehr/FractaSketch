@@ -1,12 +1,12 @@
-#include "GUI.h"
+#include "GUI_Element.h"
 #include <iostream>
 
-GUI::GUI()
+GUI_Element::GUI_Element()
 {
 
 }
 
-GUI::GUI(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height) :
+GUI_Element::GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height) :
     m_w(window),
     m_f(font),
     m_position(x, y),
@@ -31,27 +31,27 @@ GUI::GUI(sf::RenderWindow* window, sf::Font* font, double x, double y, double wi
     m_text.setPosition(x, y - 2);
 }
 
-bool GUI::GetActive() {
+bool GUI_Element::GetActive() {
     return isActive;
 }
 
-void GUI::SetBoxColor(sf::Color c) {
+void GUI_Element::SetBoxColor(sf::Color c) {
     m_rectangle.setFillColor(c);
 }
 
-void GUI::SetOutlineColor(sf::Color c) {
+void GUI_Element::SetOutlineColor(sf::Color c) {
     m_rectangle.setOutlineColor(c);
 }
 
-sf::Color GUI::GetBoxColor() {
+sf::Color GUI_Element::GetBoxColor() {
     return m_rectangle.getFillColor();
 }
 
-sf::Color GUI::GetOutlineColor() {
+sf::Color GUI_Element::GetOutlineColor() {
     return m_rectangle.getOutlineColor();
 }
 
-bool GUI::IsClicked(double xP, double yP) {
+bool GUI_Element::IsClicked(double xP, double yP) {
     double xScale = m_w->getSize().x / m_wSize.x, yScale = m_w->getSize().y / m_wSize.y;
     int cap = (((std::string)m_cap.getString()).length() + 1) * 10;
 
@@ -62,33 +62,33 @@ bool GUI::IsClicked(double xP, double yP) {
         return false;
 }
 
-sf::Vector2f GUI::GetPosition() {
+sf::Vector2f GUI_Element::GetPosition() {
     return m_position;
 }
 
-sf::Vector2f GUI::GetSize() {
+sf::Vector2f GUI_Element::GetSize() {
     return m_size;
 }
 
-void GUI::SetText(std::string str) {
+void GUI_Element::SetText(std::string str) {
     m_text.setString(str);
 }
 
-std::string GUI::GetText() {
+std::string GUI_Element::GetText() {
     return m_text.getString();
 }
 
-std::string GUI::GetCap() {
+std::string GUI_Element::GetCap() {
     return m_cap.getString();
 }
 
-void GUI::Draw() {
+void GUI_Element::Draw() {
     m_w->draw(m_rectangle);
     m_w->draw(m_text);
     m_w->draw(m_cap);
 }
 
-void GUI::DrawWhite() {
+void GUI_Element::DrawWhite() {
     auto whiteRect = m_rectangle;
     whiteRect.setPosition(m_position - sf::Vector2f(1, 1));
     whiteRect.setSize(m_size + sf::Vector2f(((std::string)m_cap.getString()).length() * 10 + 2, 2));

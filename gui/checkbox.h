@@ -1,9 +1,9 @@
 #ifndef CHECKBOX_H
 #define CHECKBOX_H
 
-#include "GUI.h"
+#include "GUI_Element.h"
 
-class Checkbox : public GUI
+class Checkbox : public GUI_Element
 {
 private:
     //sf::Text m_cap;

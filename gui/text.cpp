@@ -11,7 +11,7 @@ InputBox::InputBox() {
 
 InputBox::InputBox(sf::RenderWindow* window, sf::Font* font, int x, int y, int width, int height,
                    std::string cap):
-    GUI(window, font, x, y, width, height)
+    GUI_Element(window, font, x, y, width, height)
 {
     m_cursorPos = 0;
     m_stringPos = 0;

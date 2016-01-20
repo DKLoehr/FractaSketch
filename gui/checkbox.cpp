@@ -5,7 +5,7 @@ Checkbox::Checkbox() {
 }
 
 Checkbox::Checkbox(sf::RenderWindow* window, sf::Font* font, int x, int y, std::string cap, bool isToggled)
-    : GUI(window, font, x, y, 11, 11)
+    : GUI_Element(window, font, x, y, 11, 11)
 {
     m_isToggled = !isToggled;
     Toggle(); // Toggle so we update our string
