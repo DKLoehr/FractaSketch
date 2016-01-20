@@ -16,34 +16,42 @@ Grid::~Grid()
 }
 
 void Grid::Draw() {
-    m_window->draw(m_grids[m_type]);
+    std::vector<sf::CircleShape>::iterator it;
+    for(it = m_grids[m_type].begin(); it != m_grids[m_type].end(); it++)
+        m_window->draw(*it);
 }
 
 void Grid::FillGrids() {
-    m_grids[gt_none] = sf::VertexArray(sf::Points, 0);
+    m_grids[gt_none] = std::vector<sf::CircleShape>(0);
 
+    sf::CircleShape point(GRID_DOT_RAD);
+    point.setFillColor(sf::Color::Black);
+    point.setOrigin(GRID_DOT_RAD, GRID_DOT_RAD); // Position relative to center instead of top-left corner
     // Initialize the square grid
-    double rows = m_size.y / SQUARE_SCALE,
-           cols = m_size.x / SQUARE_SCALE;
+    double rows = m_size.y / GRID_SQUARE_SCALE,
+           cols = m_size.x / GRID_SQUARE_SCALE;
     for(int iii = 0; iii < rows; iii++) {
         for(int jjj = 0; jjj < cols; jjj++) {
-            m_grids[gt_square].append(sf::Vertex(m_position + sf::Vector2f(jjj*SQUARE_SCALE, iii*SQUARE_SCALE), sf::Color::Black));
+            point.setPosition(m_position + sf::Vector2f(jjj*GRID_SQUARE_SCALE, iii*GRID_SQUARE_SCALE));
+            m_grids[gt_square].push_back(point);
         }
     }
 
     // Initialize the hex grid by tracking the centers of each hex and
     // drawing the 6 points around each
     // TODO: Remove duplicates
-    double dx = 3*HEX_SCALE,
-           dy = sqrt(3)/2*HEX_SCALE;
+    double dx = 3*GRID_HEX_SCALE,
+           dy = sqrt(3)/2*GRID_HEX_SCALE;
     rows = m_size.y / dy;
     cols = m_size.x / dx;
     for(int iii = 0; iii < rows; iii++) {
         for(int jjj = 0; jjj < cols; jjj++) {
+            sf::Vector2f center = m_position
+                                 + sf::Vector2f(jjj*dx, iii*dy)
+                                 + sf::Vector2f(1.5*GRID_HEX_SCALE*(iii % 2 + 1), 0); // Shift left or not based on row num
             for(int kkk = 0; kkk < 6; kkk++) {
-                sf::Vector2f center = m_position + sf::Vector2f(jjj*dx, iii*dy) + sf::Vector2f(1.5*HEX_SCALE*(iii % 2 + 1), 0);
-                m_grids[gt_hex].append(sf::Vertex(center + sf::Vector2f(cos(M_PI/3*kkk), sin(M_PI/3*kkk)) * (float)HEX_SCALE,
-                                                   sf::Color::Black));
+                point.setPosition(center + (sf::Vector2f(cos(M_PI/3*kkk), sin(M_PI/3*kkk)) * (float)GRID_HEX_SCALE));
+                m_grids[gt_hex].push_back(point);
             }
         }
     }
@@ -60,18 +68,19 @@ sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
         if(point.x > (m_position+m_size).x) point.x = (m_position+m_size).x;
         if(point.y < m_position.y) point.y = m_position.y;
         if(point.y > (m_position+m_size).y) point.y = (m_position+m_size).y;
-        point.x = ((int)((point.x - m_position.x)/SQUARE_SCALE + .5))*SQUARE_SCALE + m_position.x;
-        point.y = ((int)((point.y - m_position.y)/SQUARE_SCALE + .5))*SQUARE_SCALE + m_position.y;
+        point.x = ((int)((point.x - m_position.x)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.x;
+        point.y = ((int)((point.y - m_position.y)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.y;
         return point;
     } else { // Hex grid
         unsigned int minDist = -1;
         sf::Vector2f minDistPoint = point;
-        for(int iii = 0; iii < m_grids[2].getVertexCount(); iii++) {
-            sf::Vector2f dist = m_grids[2][iii].position - point;
+        std::vector<sf::CircleShape>::iterator it;
+        for(it = m_grids[gt_hex].begin(); it != m_grids[gt_hex].end(); it++) {
+            sf::Vector2f dist = it->getPosition()  - point;
             int length = sqrt(dist.x*dist.x + dist.y*dist.y);
             if(length < minDist) {
                 minDist = length;
-                minDistPoint = m_grids[2][iii].position;
+                minDistPoint = it->getPosition();
             }
         }
         return minDistPoint;

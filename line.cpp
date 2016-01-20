@@ -51,30 +51,30 @@ void Line::ConstructBody() {
     switch(m_type) {
     case lt_topRight:
         m_body.append(sf::Vertex(m_finish, color));
-        m_body.append(sf::Vertex(m_finish - sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
-                                          + sf::Vector2f(dist.y*ARROW_LENGTH, dist.x*-ARROW_HEIGHT), color));
+        m_body.append(sf::Vertex(m_finish - sf::Vector2f(dist.x, dist.y) * (float)LINE_ARROW_LENGTH
+                                          + sf::Vector2f(dist.y*LINE_ARROW_LENGTH, dist.x*-LINE_ARROW_HEIGHT), color));
         return;
     case lt_botRight:
         m_body.append(sf::Vertex(m_finish, color));
-        m_body.append(sf::Vertex(m_finish - sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
-                             + sf::Vector2f(dist.y*-ARROW_LENGTH, dist.x*ARROW_HEIGHT), color));
+        m_body.append(sf::Vertex(m_finish - sf::Vector2f(dist.x, dist.y) * (float)LINE_ARROW_LENGTH
+                             + sf::Vector2f(dist.y*-LINE_ARROW_LENGTH, dist.x*LINE_ARROW_HEIGHT), color));
         return;
     case lt_topLeft:
         m_body.append(sf::Vertex(m_start, color));
-        m_body.append(sf::Vertex(m_start + sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
-                                         + sf::Vector2f(dist.y*ARROW_LENGTH, dist.x*-ARROW_HEIGHT), color));
+        m_body.append(sf::Vertex(m_start + sf::Vector2f(dist.x, dist.y) * (float)LINE_ARROW_LENGTH
+                                         + sf::Vector2f(dist.y*LINE_ARROW_LENGTH, dist.x*-LINE_ARROW_HEIGHT), color));
         return;
     case lt_botLeft:
         m_body.append(sf::Vertex(m_start, color));
-        m_body.append(sf::Vertex(m_start + sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
-                                         + sf::Vector2f(dist.y*-ARROW_LENGTH, dist.x*ARROW_HEIGHT), color));
+        m_body.append(sf::Vertex(m_start + sf::Vector2f(dist.x, dist.y) * (float)LINE_ARROW_LENGTH
+                                         + sf::Vector2f(dist.y*-LINE_ARROW_LENGTH, dist.x*LINE_ARROW_HEIGHT), color));
         return;
     case lt_base:
-        arrow = m_finish - sf::Vector2f(dist.x, dist.y) * (float)ARROW_LENGTH
-                                  + sf::Vector2f(dist.y*ARROW_LENGTH, dist.x*-ARROW_HEIGHT);
+        arrow = m_finish - sf::Vector2f(dist.x, dist.y) * (float)LINE_ARROW_LENGTH
+                                  + sf::Vector2f(dist.y*LINE_ARROW_LENGTH, dist.x*-LINE_ARROW_HEIGHT);
         loc = m_start;
-        dot = dist * (float)DOT_SIZE;
-        numDots = length / DOT_SIZE / 2;
+        dot = dist * (float)LINE_DOT_SIZE;
+        numDots = length / LINE_DOT_SIZE / 2;
         for(int iii = 0; iii < numDots; iii++) { // Draw the dots along the line
             m_body.append(sf::Vertex(loc, color));
             m_body.append(sf::Vertex(loc + dot, color));
@@ -85,8 +85,8 @@ void Line::ConstructBody() {
 
         loc = m_finish;
         dot = (arrow - m_finish);
-        dot *= (float)(DOT_SIZE / sqrt(dot.x*dot.x + dot.y*dot.y));
-        numDots = sqrt(ARROW_HEIGHT*ARROW_HEIGHT + ARROW_LENGTH*ARROW_LENGTH) / DOT_SIZE / 2; // TODO: Don't recalculate this every time
+        dot *= (float)(LINE_DOT_SIZE / sqrt(dot.x*dot.x + dot.y*dot.y));
+        numDots = sqrt(LINE_ARROW_HEIGHT*LINE_ARROW_HEIGHT + LINE_ARROW_LENGTH*LINE_ARROW_LENGTH) / LINE_DOT_SIZE / 2; // TODO: Don't recalculate this every time
         for(int iii = 0; iii < numDots; iii++) { // Draw the dots along the arrow
             m_body.append(sf::Vertex(loc, color));
             m_body.append(sf::Vertex(loc + dot, color));
@@ -98,13 +98,13 @@ void Line::ConstructBody() {
     case lt_hidden:
         m_body.setPrimitiveType(sf::Points);
         loc = m_start;
-        dot = sf::Vector2f(dist.y, -dist.x) * (float)DOT_DIST;
-        numDots = length / DOT_DIST / 2;
+        dot = sf::Vector2f(dist.y, -dist.x) * (float)LINE_DOT_DIST;
+        numDots = length / LINE_DOT_DIST / 2;
         for(int iii = 0; iii < numDots; iii++) {
             m_body.append(sf::Vertex(loc - dot, color));
-            loc += dist * (float)DOT_DIST;
+            loc += dist * (float)LINE_DOT_DIST;
             m_body.append(sf::Vertex(loc, color));
-            loc += dist * (float)DOT_DIST;
+            loc += dist * (float)LINE_DOT_DIST;
             m_body.append(sf::Vertex(loc + dot, color));
         }
         break;

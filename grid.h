@@ -19,7 +19,7 @@ private:
 
     grid_type m_type;
 
-    sf::VertexArray m_grids[GRID_TYPE_NUM];
+    std::vector<sf::CircleShape> m_grids[GRID_TYPE_NUM];
 
 public:
     Grid(sf::RenderWindow* window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type);

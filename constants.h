@@ -7,13 +7,14 @@
 
 // Grid settings
 #define GRID_TYPE_NUM 3
-#define SQUARE_SCALE 20 // Distance between points
-#define HEX_SCALE    20
+#define GRID_SQUARE_SCALE 30.0 // Distance between points
+#define GRID_HEX_SCALE    20.0
+#define GRID_DOT_RAD 1.0
 
 // Line settings
-#define ARROW_HEIGHT 7.5
-#define ARROW_LENGTH 15.0
-#define DOT_SIZE 5 // Length of lines in dotted lines
-#define DOT_DIST 1 // Distance between dots in hidden lines
+#define LINE_ARROW_HEIGHT 7.5
+#define LINE_ARROW_LENGTH 15.0
+#define LINE_DOT_SIZE 5.0 // Length of lines in dotted lines
+#define LINE_DOT_DIST 1.0 // Distance between dots in hidden lines
 
 #endif // CONSTANTS_H
