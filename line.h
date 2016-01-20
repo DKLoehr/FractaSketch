@@ -4,9 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include "constants.h"
 
+class Line
+{
+
 // The first four types refer to the location of the arrow
 // on horizontal line in the positive x direction
-enum line_type {
+public: enum line_type {
     lt_base = 0,    // The base line on the template
     lt_topRight = 1,
     lt_botRight = 2,
@@ -16,8 +19,6 @@ enum line_type {
     lt_hidden = 6 // Neither shown nor replaced during iterations
 };
 
-class Line
-{
 private:
     sf::RenderWindow* m_window;
     line_type m_type;

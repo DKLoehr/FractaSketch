@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include <queue>
 
-Grid::Grid(sf::RenderWindow* window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type):
+Grid::Grid(sf::RenderWindow* window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type = gt_none):
     m_window(window),
     m_position(topLeft),
     m_size(botRight-topLeft),

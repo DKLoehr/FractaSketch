@@ -4,14 +4,15 @@
 #include <SFML/Graphics.hpp>
 #include "constants.h"
 
-enum grid_type {
+class Grid
+{
+
+public: enum grid_type {
     gt_none = 0,  // Invisible
     gt_square = 1,
     gt_hex = 2
 };
 
-class Grid
-{
 private:
     sf::RenderWindow* m_window;
     sf::Vector2f m_position;

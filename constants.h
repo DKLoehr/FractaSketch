@@ -17,4 +17,8 @@
 #define LINE_DOT_SIZE 5.0 // Length of lines in dotted lines
 #define LINE_DOT_DIST 1.0 // Distance between dots in hidden lines
 
+
+// GUI settings
+#define GUI_HEIGHT_OFFSET 100
+
 #endif // CONSTANTS_H

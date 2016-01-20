@@ -113,7 +113,7 @@ void Line::ConstructBody() {
     }
 }
 
-line_type Line::GetType() {
+Line::line_type Line::GetType() {
     return m_type;
 }
 
