@@ -28,6 +28,7 @@ public:
 
     void Draw();
     void FillGrids();
+    void SetType(grid_type newType);
     // Returns the point on the grid nearest to the input point
     sf::Vector2f SnapToNearest(sf::Vector2f point);
 };

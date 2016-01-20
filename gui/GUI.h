@@ -3,6 +3,16 @@
 #include "checkbox.h"
 #include "text.h"
 #include "../grid.h"
+#include "../line.h"
+
+// This type is returned in case the event caused
+// something outside the GUI to change
+enum event_result {
+    et_none = 0,
+    et_lineChange = 1,  // The line type was changed
+    et_setLine = 2,     // The user clicked on the graph
+    et_mouseMoved = 3   // The mouse moved
+};
 
 class GUI {
 
@@ -20,9 +30,9 @@ private:
     Button line_hidden;
 
     // Grid type selection
-    Checkbox grid_none;
-    Checkbox grid_square;
-    Checkbox grid_hex;
+    Button grid_none;
+    Button grid_square;
+    Button grid_hex;
 
     // The grid itself
     Grid m_grid;
@@ -33,4 +43,7 @@ public:
 
     void Draw();
     sf::Vector2f SnapToGrid(sf::Vector2f point);
+    event_result HandleEvent(sf::Event event);
+
+    Line::line_type GetLineButton(); // Returns the index of the active line type button
 };

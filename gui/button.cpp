@@ -12,15 +12,16 @@ Button::Button(sf::RenderWindow* window, sf::Font* font, int x, int y, int width
 
     m_rectangle.setPosition(x, y);
     m_text.setPosition(x, y - 2);
+    SetActive(false);
 }
 
 void Button::SetActive(bool active) {
     isActive = active;
     DrawWhite();
     if(isActive) {
-        m_rectangle.setFillColor(sf::Color::White);
+        SetOutlineColor(sf::Color::Green);
     } else {
-        m_rectangle.setFillColor(sf::Color(150, 150, 150));
+        SetOutlineColor(sf::Color::Black);
     }
     Draw();
 }
