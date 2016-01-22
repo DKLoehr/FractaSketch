@@ -13,6 +13,7 @@ GUI::GUI(sf::RenderWindow* window, sf::Font* inFont):
     grid_none(window, inFont, 635, 5, 100, 15, "No Grid"),
     grid_square(window, inFont, 740, 5, 100, 15, "Square Grid"),
     grid_hex(window, inFont, 845, 5, 100, 15, "Hex Grid"),
+    draw_button(window, inFont, 950, 5, 100, 15, "Draw"),
     m_grid(window, sf::Vector2f(0, GUI_HEIGHT_OFFSET), sf::Vector2f(window->getSize()), Grid::gt_square)
 {
     line_topRight.SetActive(true);
@@ -25,6 +26,7 @@ GUI::GUI(sf::RenderWindow* window, sf::Font* inFont):
     elements.push_back(&grid_none);
     elements.push_back(&grid_square);
     elements.push_back(&grid_hex);
+    elements.push_back(&draw_button);
 }
 
 GUI::~GUI() {
@@ -61,9 +63,11 @@ event_result GUI::HandleEvent(sf::Event event) {
                     elements[iii]->SetActive(true);
                     return et_lineChange;
                 }
-                else {
+                else if(iii < 9){
                     m_grid.SetType((Grid::grid_type)(iii-6));
                     return et_none;
+                } else {
+                    return et_draw;
                 }
             }
         }
