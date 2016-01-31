@@ -1,7 +1,7 @@
 #include "Fractal_Element.h"
 
 Fractal_Element::Fractal_Element():
-     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0))
+     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(100,100))
 {
 
 }
@@ -15,23 +15,39 @@ void Fractal_Element::AddLine(Line newLine) {
     m_baseline.SetPosition(m_lines[0].GetStart(), newLine.GetFinish());
 }
 
-Transform Fractal_Element::MatchBase(const Line& base) {
+const std::vector<Line>& Fractal_Element::GetLines() const {
+    return m_lines;
+}
+
+Transform Fractal_Element::MatchBase(const Line& base) const {
     return m_baseline.Match(base);
 }
 
-Fractal_Element Fractal_Element::TransformAll(Transform t) {
+Fractal_Element Fractal_Element::TransformAll(Transform t) const {
     Fractal_Element newFE;
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        if(line_it->GetType() == Line::lt_static || line_it->GetType() == Line::lt_hidden)
-            newFE.AddLine(*line_it);
-        else
-            newFE.AddLine(line_it->ApplyTransform(t));
+        newFE.AddLine(line_it->ApplyTransform(t));
     }
-
     return newFE;
 }
 
-void Fractal_Element::Draw(sf::RenderWindow& window, bool simple) {
+Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Element& target) const {
+    Fractal_Element newFE;
+    for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
+        if(line_it->GetType() == Line::lt_static || line_it->GetType() == Line::lt_hidden) {
+            newFE.AddLine(*line_it);
+            continue;
+        }
+        Fractal_Element transformed = target.TransformAll(target.MatchBase(*line_it));
+        std::vector<Line> transLines = transformed.GetLines();
+        for(auto trans_it = transLines.begin(); trans_it != transLines.end(); trans_it++) {
+            newFE.AddLine(*trans_it);
+        }
+    }
+    return newFE;
+}
+
+void Fractal_Element::Draw(sf::RenderWindow& window, bool simple) const {
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
         line_it->Draw(window, simple);
     }

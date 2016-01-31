@@ -13,10 +13,13 @@ public:
     ~Fractal_Element();
 
     void AddLine(Line newLine);
-    Transform MatchBase(const Line& base);
+    const std::vector<Line>& GetLines() const;
 
-    Fractal_Element TransformAll(Transform t);
+    Transform MatchBase(const Line& base) const;
+    Fractal_Element TransformAll(Transform t) const;
+    Fractal_Element ReplaceAll(const Fractal_Element& target) const;
 
-    void Draw(sf::RenderWindow& window, bool simple);
+    void Draw(sf::RenderWindow& window, bool simple) const;
+
 };
 #endif // FRACTAL_ELEMENT_H

@@ -51,17 +51,18 @@ public:
 
     double Length() const;
 
+    void SetType(line_type newType);
+    void SetPosition(sf::Vector2f start, sf::Vector2f finish);
+
+    line_type GetType() const;
     sf::Vector2f GetStart() const;
     sf::Vector2f GetFinish() const;
     sf::Vector2f FromOrigin() const;
 
-    void Draw(sf::RenderWindow& window, bool simple) const;
-    line_type GetType() const;
-    void SetType(line_type newType);
-    void SetPosition(sf::Vector2f start, sf::Vector2f finish);
-
-    Transform Match(const Line& base);
+    Transform Match(const Line& base) const;
     Line ApplyTransform(Transform t) const;
+
+    void Draw(sf::RenderWindow& window, bool simple) const;
 };
 
 

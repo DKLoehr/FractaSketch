@@ -53,6 +53,12 @@ void Line::ConstructBody() {
     m_body.setPrimitiveType(sf::Lines);
     sf::Color color = sf::Color::Black;
 
+    if(m_start == m_finish) {
+        m_body.append(sf::Vertex(m_start, color));
+        m_body.append(sf::Vertex(m_start, color));
+        return;
+    }
+
     sf::Vector2f dist = m_finish - m_start;
     double length = sqrt(dist.x * dist.x + dist.y * dist.y);
     dist /= (float)length;
@@ -145,7 +151,7 @@ void Line::SetPosition(sf::Vector2f start, sf::Vector2f finish) {
     ConstructBody();
 }
 
-Transform Line::Match(const Line& base) {
+Transform Line::Match(const Line& base) const {
     sf::Vector2f baseStart = base.GetStart();
     sf::Vector2f baseFinish = base.GetFinish();
 
