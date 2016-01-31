@@ -19,7 +19,24 @@ Line::~Line() {
 
 }
 
-void Line::Draw(bool simple) {
+double Line::Length() const {
+    sf::Vector2f dist = m_finish - m_start;
+    return sqrt(dist.x*dist.x + dist.y*dist.y);
+}
+
+sf::Vector2f Line::GetStart() const {
+    return m_start;
+};
+
+sf::Vector2f Line::GetFinish() const {
+    return m_finish;
+};
+
+sf::Vector2f Line::FromOrigin() const {
+    return m_finish - m_start;
+};
+
+void Line::Draw(bool simple) const {
     if(simple) { // Just draw a straight line
         if(m_type >= 5) { // A hidden or base line
             return; // Don't draw
@@ -113,7 +130,7 @@ void Line::ConstructBody() {
     }
 }
 
-Line::line_type Line::GetType() {
+Line::line_type Line::GetType() const {
     return m_type;
 }
 
@@ -127,4 +144,62 @@ void Line::SetPosition(sf::Vector2f start, sf::Vector2f finish) {
     m_finish = finish;
 
     ConstructBody();
+}
+
+Transform Line::Match(const Line& base) {
+    sf::Vector2f baseStart = base.GetStart();
+    sf::Vector2f baseFinish = base.GetFinish();
+
+    if(base.GetType() == Line::lt_botLeft ||
+       base.GetType() == Line::lt_topLeft) {
+        baseStart = base.GetFinish();
+        baseFinish = base.GetStart();
+    }
+
+    sf::Vector2f myDiff = m_finish - m_start,
+                 baseDiff = baseFinish - baseStart;
+
+    double scale = base.Length() / Length();
+
+    double theta = atan2(baseDiff.y*myDiff.x - baseDiff.x*myDiff.y, baseDiff.x*myDiff.x + baseDiff.y*myDiff.y);
+    sf::Vector2f translate = baseStart - m_start;
+
+    sf::Vector2f reflect_start(0,0),
+                 reflect_finish(0,0);
+    if(base.GetType() == Line::lt_botRight ||
+       base.GetType() == Line::lt_topLeft) {
+        reflect_start = baseStart;
+        reflect_finish = baseFinish;
+    }
+
+    std::printf("Transform: %f, %f, (%f, %f), (%f, %f), (%f, %f)\n", scale, theta * 180 / M_PI, translate.x, translate.y,
+                                    reflect_start.x, reflect_start.y, reflect_finish.x, reflect_finish.y);
+    return Transform(scale, theta, m_start, translate, reflect_start, reflect_finish);
+}
+
+Line Line::ApplyTransform(Transform t) const {
+    sf::Vector2f newStart = m_start - t.rotate_base,
+                 newFinish = m_finish - t.rotate_base;
+
+    newStart = sf::Vector2f(newStart.x*cos(t.theta) - newStart.y*sin(t.theta),
+                             newStart.x*sin(t.theta) + newStart.y*cos(t.theta));
+    newFinish = sf::Vector2f(newFinish.x*cos(t.theta) - newFinish.y*sin(t.theta),
+                             newFinish.x*sin(t.theta) + newFinish.y*cos(t.theta));
+
+    newStart *= (float)t.scale;
+    newFinish *= (float)t.scale;
+
+    newStart += t.rotate_base + t.translate;
+    newFinish += t.rotate_base + t.translate;
+
+    if(t.reflect_start != t.reflect_finish) {
+        sf::Vector2f axis = t.reflect_finish - t.reflect_start;
+        double axisSquared = axis.x*axis.x + axis.y*axis.y;
+        sf::Vector2f P = newStart - t.reflect_start;
+        newStart = (float)(2*(P.x*axis.x + P.y*axis.y)/axisSquared) * axis - P + t.reflect_start;
+        P = newFinish - t.reflect_start;
+        newFinish = (float)(2*(P.x*axis.x + P.y*axis.y)/axisSquared) * axis - P + t.reflect_start;
+    }
+
+    return Line(m_window, m_type, newStart, newFinish);
 }

@@ -4,6 +4,24 @@
 #include <SFML/Graphics.hpp>
 #include "constants.h"
 
+struct Transform {
+    double scale;
+    double theta;
+    sf::Vector2f rotate_base;
+    sf::Vector2f translate;
+    sf::Vector2f reflect_start;
+    sf::Vector2f reflect_finish;
+
+    Transform(double s, double th, sf::Vector2f rb, sf::Vector2f tr, sf::Vector2f rs, sf::Vector2f rf) {
+        scale = s;
+        theta = th;
+        rotate_base = rb;
+        translate = tr;
+        reflect_start = rs;
+        reflect_finish = rf;
+    }
+};
+
 class Line
 {
 
@@ -32,11 +50,19 @@ public:
     Line(sf::RenderWindow* window, line_type type, sf::Vector2f start, sf::Vector2f finish);
     ~Line();
 
-    void Draw(bool simple);
-    line_type GetType();
+    double Length() const;
+
+    sf::Vector2f GetStart() const;
+    sf::Vector2f GetFinish() const;
+    sf::Vector2f FromOrigin() const;
+
+    void Draw(bool simple) const;
+    line_type GetType() const;
     void SetType(line_type newType);
     void SetPosition(sf::Vector2f start, sf::Vector2f finish);
 
+    Transform Match(const Line& base);
+    Line ApplyTransform(Transform t) const;
 };
 
 

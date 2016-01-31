@@ -4,7 +4,7 @@ GUI::GUI(sf::RenderWindow* window, sf::Font* inFont):
     m_window(window),
     m_inFont(inFont),
     elements(0),
-    line_topRight(window, inFont, 5, 5, 100, 15, "TopLeft"),
+    line_topRight(window, inFont, 5, 5, 100, 15, "TopRight"),
     line_botRight(window, inFont, 110, 5, 100, 15, "BotRight"),
     line_topLeft(window, inFont, 215, 5, 100, 15, "TopLeft"),
     line_botLeft(window, inFont, 320, 5, 100, 15, "BotLeft"),
