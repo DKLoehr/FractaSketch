@@ -5,8 +5,7 @@
 #endif // M_PI
 #include <iostream>
 
-Line::Line(sf::RenderWindow* window, line_type type, sf::Vector2f start, sf::Vector2f finish):
-    m_window(window),
+Line::Line(line_type type, sf::Vector2f start, sf::Vector2f finish):
     m_type(type),
     m_start(start),
     m_finish(finish),
@@ -36,16 +35,16 @@ sf::Vector2f Line::FromOrigin() const {
     return m_finish - m_start;
 };
 
-void Line::Draw(bool simple) const {
+void Line::Draw(sf::RenderWindow& window, bool simple) const {
     if(simple) { // Just draw a straight line
         if(m_type >= 5) { // A hidden or base line
             return; // Don't draw
         }
         sf::Vertex simpleLine[] = {sf::Vertex(m_start, sf::Color::Black),
                                    sf::Vertex(m_finish, sf::Color::Black)};
-        m_window->draw(simpleLine, 2, sf::Lines);
+        window.draw(simpleLine, 2, sf::Lines);
     } else {
-        m_window->draw(m_body);
+        window.draw(m_body);
     }
 }
 
@@ -178,20 +177,25 @@ Transform Line::Match(const Line& base) {
 }
 
 Line Line::ApplyTransform(Transform t) const {
-    sf::Vector2f newStart = m_start - t.rotate_base,
-                 newFinish = m_finish - t.rotate_base;
+    sf::Vector2f newStart = m_start - t.origin,
+                 newFinish = m_finish - t.origin;
 
+    // Rotations
     newStart = sf::Vector2f(newStart.x*cos(t.theta) - newStart.y*sin(t.theta),
                              newStart.x*sin(t.theta) + newStart.y*cos(t.theta));
     newFinish = sf::Vector2f(newFinish.x*cos(t.theta) - newFinish.y*sin(t.theta),
                              newFinish.x*sin(t.theta) + newFinish.y*cos(t.theta));
 
+    // Dilations
     newStart *= (float)t.scale;
     newFinish *= (float)t.scale;
 
-    newStart += t.rotate_base + t.translate;
-    newFinish += t.rotate_base + t.translate;
+    // Translations
+    newStart += t.origin + t.translate;
+    newFinish += t.origin + t.translate;
 
+    Line::line_type newType = m_type;
+    // Reflections, if necessary
     if(t.reflect_start != t.reflect_finish) {
         sf::Vector2f axis = t.reflect_finish - t.reflect_start;
         double axisSquared = axis.x*axis.x + axis.y*axis.y;
@@ -199,7 +203,11 @@ Line Line::ApplyTransform(Transform t) const {
         newStart = (float)(2*(P.x*axis.x + P.y*axis.y)/axisSquared) * axis - P + t.reflect_start;
         P = newFinish - t.reflect_start;
         newFinish = (float)(2*(P.x*axis.x + P.y*axis.y)/axisSquared) * axis - P + t.reflect_start;
+        if(newType == lt_topRight || newType == lt_topLeft)
+            newType = (Line::line_type)(newType + 1);
+        else
+            (Line::line_type)(newType - 1);
     }
 
-    return Line(m_window, m_type, newStart, newFinish);
+    return Line(newType, newStart, newFinish);
 }

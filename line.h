@@ -7,15 +7,15 @@
 struct Transform {
     double scale;
     double theta;
-    sf::Vector2f rotate_base;
+    sf::Vector2f origin; // For dilations and rotations
     sf::Vector2f translate;
     sf::Vector2f reflect_start;
     sf::Vector2f reflect_finish;
 
-    Transform(double s, double th, sf::Vector2f rb, sf::Vector2f tr, sf::Vector2f rs, sf::Vector2f rf) {
+    Transform(double s, double th, sf::Vector2f org, sf::Vector2f tr, sf::Vector2f rs, sf::Vector2f rf) {
         scale = s;
         theta = th;
-        rotate_base = rb;
+        origin = org;
         translate = tr;
         reflect_start = rs;
         reflect_finish = rf;
@@ -38,7 +38,6 @@ public: enum line_type {
 };
 
 private:
-    sf::RenderWindow* m_window;
     line_type m_type;
     sf::Vector2f m_start;
     sf::Vector2f m_finish;
@@ -47,7 +46,7 @@ private:
 
     void ConstructBody(); // Fills out body based on m_type
 public:
-    Line(sf::RenderWindow* window, line_type type, sf::Vector2f start, sf::Vector2f finish);
+    Line(line_type type, sf::Vector2f start, sf::Vector2f finish);
     ~Line();
 
     double Length() const;
@@ -56,7 +55,7 @@ public:
     sf::Vector2f GetFinish() const;
     sf::Vector2f FromOrigin() const;
 
-    void Draw(bool simple) const;
+    void Draw(sf::RenderWindow& window, bool simple) const;
     line_type GetType() const;
     void SetType(line_type newType);
     void SetPosition(sf::Vector2f start, sf::Vector2f finish);
