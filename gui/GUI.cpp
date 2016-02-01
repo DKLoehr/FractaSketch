@@ -1,8 +1,9 @@
 #include "gui.h"
 
-GUI::GUI(sf::RenderWindow* window, sf::Font* inFont):
+GUI::GUI(sf::RenderWindow* window, sf::Font* inFont, Fractal_Iterator& iter):
     m_window(window),
     m_inFont(inFont),
+    m_iter(iter),
     elements(0),
     line_topRight(window, inFont, 5, 5, 100, 15, "TopRight"),
     line_botRight(window, inFont, 110, 5, 100, 15, "BotRight"),
@@ -27,6 +28,8 @@ GUI::GUI(sf::RenderWindow* window, sf::Font* inFont):
     elements.push_back(&grid_square);
     elements.push_back(&grid_hex);
     elements.push_back(&draw_button);
+
+    m_activeLine = 0;
 }
 
 GUI::~GUI() {
@@ -48,26 +51,17 @@ event_result GUI::HandleEvent(sf::Event event) {
     switch(event.type) {
     case sf::Event::Closed:
         m_window->close();
-        return et_none;
-    case sf::Event::MouseMoved:
-        return et_mouseMoved;
     case sf::Event::MouseButtonPressed:
-        if(event.mouseButton.y > GUI_HEIGHT_OFFSET) // On the grid
-            return et_setLine;
         for(int iii = 0; iii < elements.size(); iii++) {
             if(elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                 elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
                 if(iii <= 5) {
-                    for(int jjj = 0; jjj < 6; jjj++) //TODO: Magic numbers
-                        elements[jjj]->SetActive(false);
-                    elements[iii]->SetActive(true);
-                    return et_lineChange;
+                    elements[m_activeLine]->SetActive(false);
+                    m_activeLine = iii;
+                    elements[m_activeLine]->SetActive(true);
                 }
                 else if(iii < 9){
                     m_grid.SetType((Grid::grid_type)(iii-6));
-                    return et_none;
-                } else {
-                    return et_draw;
                 }
             }
         }
@@ -75,24 +69,13 @@ event_result GUI::HandleEvent(sf::Event event) {
     case sf::Event::KeyPressed:
         if(sf::Keyboard::Num1 <= event.key.code &&
            event.key.code <= sf::Keyboard::Num6) {
-            for(int iii = 0; iii < 6; iii++) { //TODO: Magic numbers
-                if(event.key.code - sf::Keyboard::Num1 == iii)
-                    elements[iii]->SetActive(true);
-                else
-                    elements[iii]->SetActive(false);
-            }
-            return et_lineChange;
+            elements[m_activeLine]->SetActive(false);
+            m_activeLine = event.key.code - sf::Keyboard::Num1;
+            elements[m_activeLine]->SetActive(true);
         }
-        return et_none;
-    default:
-        return et_none;
     }
 }
 
-Line::line_type GUI::GetLineButton() {
-    for(int iii = 0; iii < 6; iii++) { //TODO: Magic numbers
-        if(elements[iii]->GetActive())
-            return (Line::line_type)(iii+1);
-    }
-    return Line::lt_topLeft;
+Line::line_type GUI::GetLineType() {
+    return (Line::line_type)(m_activeLine+1);
 }

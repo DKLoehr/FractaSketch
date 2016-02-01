@@ -5,13 +5,13 @@
 
 class Fractal_Iterator {
 private:
-    sf::RenderWindow* m_window;
+    sf::RenderWindow& m_window;
 
     std::vector<Fractal_Element> m_levels;
     size_t m_currentLevel;
 
 public:
-    Fractal_Iterator(sf::RenderWindow* window);
+    Fractal_Iterator(sf::RenderWindow& window);
     ~Fractal_Iterator();
 
     void Draw();

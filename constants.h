@@ -8,7 +8,7 @@
 // Grid settings
 #define GRID_TYPE_NUM 3
 #define GRID_SQUARE_SCALE 30.0 // Distance between points
-#define GRID_HEX_SCALE    20.0
+#define GRID_HEX_SCALE    25.0
 #define GRID_DOT_RAD 1.0
 
 // Line settings
@@ -21,6 +21,6 @@
 #define GUI_HEIGHT_OFFSET 100
 
 // Iterator settings
-#define ITERATOR_LEVELS 100
+#define ITERATOR_LEVELS 10
 
 #endif // CONSTANTS_H

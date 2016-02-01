@@ -4,6 +4,7 @@
 #include "text.h"
 #include "../grid.h"
 #include "../line.h"
+#include "../Fractal_Iterator.h"
 
 // This type is returned in case the event caused
 // something outside the GUI to change
@@ -21,6 +22,7 @@ private:
     sf::RenderWindow* m_window;
     sf::Font* m_inFont;
     std::vector<GUI_Element*> elements;
+    Fractal_Iterator& m_iter;
 
     // Line type selection
     Button line_topRight; // 0
@@ -41,13 +43,15 @@ private:
     // The grid itself
     Grid m_grid;
 
+    size_t m_activeLine;
+
 public:
-    GUI(sf::RenderWindow* window, sf::Font* inFont);
+    GUI(sf::RenderWindow* window, sf::Font* inFont, Fractal_Iterator& iter);
     ~GUI();
 
     void Draw();
     sf::Vector2f SnapToGrid(sf::Vector2f point);
     event_result HandleEvent(sf::Event event);
 
-    Line::line_type GetLineButton(); // Returns the index of the active line type button
+    Line::line_type GetLineType(); // Returns the index of the active line type button
 };
