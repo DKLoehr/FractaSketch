@@ -44,6 +44,7 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Element& target) const
             newFE.AddLine(*trans_it);
         }
     }
+    newFE.SetBase(m_baseline.GetStart(), m_baseline.GetFinish());
     return newFE;
 }
 
@@ -52,4 +53,8 @@ void Fractal_Element::Draw(sf::RenderWindow& window, bool simple) const {
         line_it->Draw(window, simple);
     }
     m_baseline.Draw(window, simple);
+}
+
+void Fractal_Element::SetBase(sf::Vector2f start, sf::Vector2f finish) {
+    m_baseline.SetPosition(start, finish);
 }

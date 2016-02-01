@@ -20,6 +20,7 @@ public:
     Fractal_Element ReplaceAll(const Fractal_Element& target) const;
 
     void Draw(sf::RenderWindow& window, bool simple) const;
+    void SetBase(sf::Vector2f start, sf::Vector2f finish);
 
 };
 #endif // FRACTAL_ELEMENT_H

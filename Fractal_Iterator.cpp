@@ -27,12 +27,11 @@ void Fractal_Iterator::SetLevel(size_t level) {
     m_currentLevel = level;
     IterateTo(level);
 }
-#include <iostream>
+
 void Fractal_Iterator::IterateTo(size_t level) {
     if(level < m_levels.size())
         return;
     for(size_t iii = m_levels.size(); iii <= level; iii++) {
-        std::cout << "FOO\n";
         Fractal_Element nextFE = m_levels[0].ReplaceAll(m_levels[iii - 1]);
         m_levels.push_back(nextFE);
     }

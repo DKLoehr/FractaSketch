@@ -3,7 +3,6 @@
 #ifndef M_PI
     #define M_PI 3.14159265358979323846264338328
 #endif // M_PI
-#include <iostream>
 
 Line::Line(line_type type, sf::Vector2f start, sf::Vector2f finish):
     m_type(type),
@@ -37,7 +36,7 @@ sf::Vector2f Line::FromOrigin() const {
 
 void Line::Draw(sf::RenderWindow& window, bool simple) const {
     if(simple) { // Just draw a straight line
-        if(m_type >= 5) { // A hidden or base line
+        if(m_type == 0 || m_type == 6) { // A hidden or base line
             return; // Don't draw
         }
         sf::Vertex simpleLine[] = {sf::Vertex(m_start, sf::Color::Black),
@@ -177,8 +176,6 @@ Transform Line::Match(const Line& base) const {
         reflect_finish = baseFinish;
     }
 
-    std::printf("Transform: %f, %f, (%f, %f), (%f, %f), (%f, %f)\n", scale, theta * 180 / M_PI, translate.x, translate.y,
-                                    reflect_start.x, reflect_start.y, reflect_finish.x, reflect_finish.y);
     return Transform(scale, theta, m_start, translate, reflect_start, reflect_finish);
 }
 
@@ -201,6 +198,8 @@ Line Line::ApplyTransform(Transform t) const {
     newFinish += t.origin + t.translate;
 
     Line::line_type newType = m_type;
+    if(newType == lt_base)
+        newType = lt_topLeft;
     // Reflections, if necessary
     if(t.reflect_start != t.reflect_finish) {
         sf::Vector2f axis = t.reflect_finish - t.reflect_start;
