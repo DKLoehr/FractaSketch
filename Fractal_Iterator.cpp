@@ -4,7 +4,8 @@ Fractal_Iterator::Fractal_Iterator(sf::RenderWindow& window) :
     m_window(window),
     m_levels(0)
 {
-    SetBase(Fractal_Element());
+    m_levels.push_back(Fractal_Element());
+    m_currentLevel = 0;
 };
 
 Fractal_Iterator::~Fractal_Iterator() {

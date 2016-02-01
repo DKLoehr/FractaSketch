@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include <queue>
 
-Grid::Grid(sf::RenderWindow* window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type = gt_none):
+Grid::Grid(sf::RenderWindow& window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type = gt_none):
     m_window(window),
     m_position(topLeft),
     m_size(botRight-topLeft),
@@ -18,7 +18,7 @@ Grid::~Grid()
 void Grid::Draw() {
     std::vector<sf::CircleShape>::iterator it;
     for(it = m_grids[m_type].begin(); it != m_grids[m_type].end(); it++)
-        m_window->draw(*it);
+        m_window.draw(*it);
 }
 
 void Grid::FillGrids() {

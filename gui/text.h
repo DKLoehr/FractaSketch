@@ -17,8 +17,7 @@ private:
 
     void SetCursor(int newCursorPos);
 public:
-    InputBox(); // Warning -- since this doesn't take a window, this is useless!
-    InputBox(sf::RenderWindow* window, sf::Font* font, int x, int y, int charWidth, int charHeight, std::string cap = "");
+    InputBox(sf::RenderWindow& window, sf::Font& font, int x, int y, int charWidth, int charHeight, std::string cap = "");
 
     void SetActive(bool active);
 

@@ -1,7 +1,7 @@
 #include "Fractal_Element.h"
 
 Fractal_Element::Fractal_Element():
-     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(100,100))
+     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0))
 {
 
 }

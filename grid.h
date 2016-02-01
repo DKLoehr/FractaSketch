@@ -14,7 +14,7 @@ public: enum grid_type {
 };
 
 private:
-    sf::RenderWindow* m_window;
+    sf::RenderWindow& m_window;
     sf::Vector2f m_position;
     sf::Vector2f m_size;
 
@@ -23,7 +23,7 @@ private:
     std::vector<sf::CircleShape> m_grids[GRID_TYPE_NUM];
 
 public:
-    Grid(sf::RenderWindow* window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type);
+    Grid(sf::RenderWindow& window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type);
     ~Grid();
 
     void Draw();

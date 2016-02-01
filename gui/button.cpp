@@ -1,11 +1,7 @@
 #include "button.h"
 #include <iostream>
 
-Button::Button() {
-
-}
-
-Button::Button(sf::RenderWindow* window, sf::Font* font, int x, int y, int width, int height, std::string str) :
+Button::Button(sf::RenderWindow& window, sf::Font& font, int x, int y, int width, int height, std::string str) :
         GUI_Element(window, font, x, y, width, height)
 {
     m_text.setString(str);

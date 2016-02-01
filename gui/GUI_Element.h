@@ -11,19 +11,18 @@ class GUI_Element
 protected:
     bool isActive;
 
-    sf::RenderWindow* m_w;
+    sf::RenderWindow& m_w;
 
     sf::Vector2f m_position; // x and y position
     sf::Vector2f m_size;     // Width and heights
     sf::Vector2f m_wSize;    // Initial width and height of the window (for dealing with resizing)
 
-    sf::Font* m_f;
+    sf::Font& m_f;
     sf::Text m_text;
     sf::Text m_cap;
     sf::RectangleShape m_rectangle;
 public:
-    GUI_Element();
-    GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height);
+    GUI_Element(sf::RenderWindow& window, sf::Font& font, double x, double y, double width, double height);
 
     void SetBoxColor(sf::Color c);
     void SetOutlineColor(sf::Color c);

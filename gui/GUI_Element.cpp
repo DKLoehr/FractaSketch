@@ -1,19 +1,14 @@
 #include "GUI_Element.h"
 #include <iostream>
 
-GUI_Element::GUI_Element()
-{
-
-}
-
-GUI_Element::GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height) :
+GUI_Element::GUI_Element(sf::RenderWindow& window, sf::Font& font, double x, double y, double width, double height) :
     m_w(window),
     m_f(font),
     m_position(x, y),
     m_size(width, height),
-    m_wSize(window->getSize()),
-    m_text("", *font),
-    m_cap("", *font),
+    m_wSize(window.getSize()),
+    m_text("", font),
+    m_cap("", font),
     m_rectangle(sf::Vector2f(width, height))
 {
     m_text.setColor(sf::Color::Black);
@@ -52,7 +47,7 @@ sf::Color GUI_Element::GetOutlineColor() {
 }
 
 bool GUI_Element::IsClicked(double xP, double yP) {
-    double xScale = m_w->getSize().x / m_wSize.x, yScale = m_w->getSize().y / m_wSize.y;
+    double xScale = m_w.getSize().x / m_wSize.x, yScale = m_w.getSize().y / m_wSize.y;
     int cap = (((std::string)m_cap.getString()).length() + 1) * 10;
 
     if(((m_position.x - 3) * xScale < xP) && (xP < (m_position.x + m_size.x + cap + 2) * xScale) &&
@@ -83,9 +78,9 @@ std::string GUI_Element::GetCap() {
 }
 
 void GUI_Element::Draw() {
-    m_w->draw(m_rectangle);
-    m_w->draw(m_text);
-    m_w->draw(m_cap);
+    m_w.draw(m_rectangle);
+    m_w.draw(m_text);
+    m_w.draw(m_cap);
 }
 
 void GUI_Element::DrawWhite() {
@@ -94,5 +89,5 @@ void GUI_Element::DrawWhite() {
     whiteRect.setSize(m_size + sf::Vector2f(((std::string)m_cap.getString()).length() * 10 + 2, 2));
     whiteRect.setFillColor(sf::Color::White);
     whiteRect.setOutlineColor(sf::Color::White);
-    m_w->draw(whiteRect);
+    m_w.draw(whiteRect);
 }
