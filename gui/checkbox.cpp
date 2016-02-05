@@ -1,6 +1,6 @@
 #include "checkbox.h"
 
-Checkbox::Checkbox(sf::RenderWindow& window, sf::Font& font, int x, int y, std::string cap, bool isToggled)
+Checkbox::Checkbox(sf::RenderWindow* window, sf::Font* font, int x, int y, std::string cap, bool isToggled)
     : GUI_Element(window, font, x, y, 11, 11)
 {
     m_isToggled = !isToggled;

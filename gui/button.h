@@ -6,7 +6,8 @@
 class Button : public GUI_Element
 {
 public:
-    Button(sf::RenderWindow& window, sf::Font& font, int x, int y, int width, int height, std::string str);
+    Button();
+    Button(sf::RenderWindow* window, sf::Font* font, int x, int y, int width, int height, std::string str);
 
     void SetActive(bool active);
 

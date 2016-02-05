@@ -10,7 +10,7 @@ private:
     bool m_isToggled;
 
 public:
-    Checkbox(sf::RenderWindow& window, sf::Font& font, int x, int y, std::string cap, bool isToggled);
+    Checkbox(sf::RenderWindow* window, sf::Font* font, int x, int y, std::string cap, bool isToggled);
 
     void Toggle();
 

@@ -3,19 +3,20 @@
 
 #include "gui/button.h"
 #include "grid.h"
-#include "Fractal_Iterator.h"
+#include "Iter_Window.h"
 
 class Runner {
 private:
     sf::RenderWindow& m_window;
-    sf::RenderWindow& m_iter_window;
     sf::Font& m_font;
+    Iter_Window m_iter_window;
+
     Fractal_Element m_base;
-    Fractal_Iterator m_iter;
     Line::line_type m_currentLine;
 
     std::vector<GUI_Element*> m_elements;
 
+    //TODO: Never actually use names, so just stick all in m_elements
     // Line type selection
     Button line_topRight; // 0
     Button line_botRight; // 1

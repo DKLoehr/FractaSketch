@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <ctime>
 
-InputBox::InputBox(sf::RenderWindow& window, sf::Font& font, int x, int y, int width, int height,
+InputBox::InputBox(sf::RenderWindow* window, sf::Font* font, int x, int y, int width, int height,
                    std::string cap):
     GUI_Element(window, font, x, y, width, height)
 {
@@ -118,23 +118,23 @@ void InputBox::OnKeyPressed(sf::Keyboard::Key key) {
 }
 
 void InputBox::Draw() {
-    m_w.draw(m_rectangle);
+    m_w->draw(m_rectangle);
     std::string str = m_text.getString();
     if(str.length() * 9 > m_rectangle.getSize().x + 1) {
         std::string truncStr;
         truncStr = str.substr(m_stringPos - m_cursorPos, m_rectangle.getSize().x / 9);
         m_text.setString(truncStr);
     }
-    m_w.draw(m_text);
+    m_w->draw(m_text);
     m_text.setString(str);
-    m_w.draw(m_cap);
+    m_w->draw(m_cap);
     if(isActive) {
         if((std::clock() - m_start)/ (double)CLOCKS_PER_SEC > .5) {
             m_drawCursor = !m_drawCursor;
             m_start = std::clock();
         }
         if(m_drawCursor)
-            m_w.draw(m_cursor);
+            m_w->draw(m_cursor);
     }
 }
 

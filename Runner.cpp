@@ -2,23 +2,22 @@
 
 Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font& font) :
     m_window(window),
-    m_iter_window(iter_window),
+    m_iter_window(iter_window, font),
     m_font(font),
     m_base(),
-    m_iter(m_iter_window),
     m_currentLine(Line::lt_topRight),
     m_elements(0),
-    line_topRight(window, font, 5, 5, 100, 15, "TopRight"),
-    line_botRight(window, font, 110, 5, 100, 15, "BotRight"),
-    line_topLeft(window, font, 215, 5, 100, 15, "TopLeft"),
-    line_botLeft(window, font, 320, 5, 100, 15, "BotLeft"),
-    line_static(window, font, 425, 5, 100, 15, "Static"),
-    line_hidden(window, font, 530, 5, 100, 15, "Hidden"),
-    grid_none(window, font, 635, 5, 100, 15, "No Grid"),
-    grid_square(window, font, 740, 5, 100, 15, "Square Grid"),
-    grid_hex(window, font, 845, 5, 100, 15, "Hex Grid"),
-    draw_button(window, font, 950, 5, 100, 15, "Draw"),
-    clear_button(window, font, 1055, 5, 100, 15, "Clear"),
+    line_topRight(&window, &font, 5, 5, 100, 15, "TopRight"),
+    line_botRight(&window, &font, 110, 5, 100, 15, "BotRight"),
+    line_topLeft(&window, &font, 215, 5, 100, 15, "TopLeft"),
+    line_botLeft(&window, &font, 320, 5, 100, 15, "BotLeft"),
+    line_static(&window, &font, 425, 5, 100, 15, "Static"),
+    line_hidden(&window, &font, 530, 5, 100, 15, "Hidden"),
+    grid_none(&window, &font, 635, 5, 100, 15, "No Grid"),
+    grid_square(&window, &font, 740, 5, 100, 15, "Square Grid"),
+    grid_hex(&window, &font, 845, 5, 100, 15, "Hex Grid"),
+    draw_button(&window, &font, 950, 5, 100, 15, "Draw"),
+    clear_button(&window, &font, 1055, 5, 100, 15, "Clear"),
     m_grid(window, sf::Vector2f(0, GUI_HEIGHT_OFFSET), sf::Vector2f(m_window.getSize()), Grid::gt_square),
     m_drawingLine(false),
     m_line(m_currentLine, sf::Vector2f(0,0), sf::Vector2f(0,0))
@@ -42,11 +41,8 @@ Runner::~Runner() {
 }
 
 void Runner::HandleEvents() {
+    m_iter_window.HandleEvents();
     sf::Event event;
-    while(m_iter_window.pollEvent(event)) {
-        if(event.type == sf::Event::Closed)
-            m_iter_window.close();
-    }
     while(m_window.pollEvent(event)) {
     switch(event.type) {
         case sf::Event::Closed:
@@ -75,7 +71,7 @@ void Runner::HandleEvents() {
                         else if(iii < 9){ // Grid
                             m_grid.SetType((Grid::grid_type)(iii-6));
                         } else if(iii == 9) { // Draw
-                            m_iter.SetBase(m_base);
+                            m_iter_window.StartNewIteration(m_base);
                         } else if(iii == 10) { // Clear
                             m_base = Fractal_Element();
                             m_drawingLine = false;
@@ -109,7 +105,6 @@ void Runner::HandleEvents() {
 
 void Runner::Draw() {
     m_window.clear(sf::Color::White);
-    m_iter_window.clear(sf::Color::White);
 
     std::vector<GUI_Element*>::iterator it;
     for(it = m_elements.begin(); it != m_elements.end(); it++)
@@ -120,9 +115,9 @@ void Runner::Draw() {
         m_line.Draw(m_window, false);
 
     m_base.Draw(m_window, false);
-    m_iter.Draw();
 
     m_window.display();
-    m_iter_window.display();
+
+    m_iter_window.Draw();
 }
 

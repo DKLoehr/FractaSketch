@@ -1,7 +1,6 @@
 #include "Fractal_Iterator.h"
 
-Fractal_Iterator::Fractal_Iterator(sf::RenderWindow& window) :
-    m_window(window),
+Fractal_Iterator::Fractal_Iterator() :
     m_levels(0)
 {
     m_levels.push_back(Fractal_Element());
@@ -12,18 +11,14 @@ Fractal_Iterator::~Fractal_Iterator() {
 
 }
 
-void Fractal_Iterator::Draw() {
-    m_levels[m_currentLevel].Draw(m_window, true);
+void Fractal_Iterator::Draw(sf::RenderWindow& window) {
+    m_levels[m_currentLevel].Draw(window, true);
 }
 
 void Fractal_Iterator::SetBase(Fractal_Element newBase) {
-    if(!m_window.isOpen()) {
-        m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
-        m_window.setPosition(sf::Vector2i(0, 0));
-    }
     m_levels.clear();
     m_levels.push_back(newBase);
-    m_currentLevel = 0;
+    SetLevel(0);
 }
 
 void Fractal_Iterator::SetLevel(size_t level) {
