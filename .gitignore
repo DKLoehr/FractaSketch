@@ -35,3 +35,7 @@ bin/*
 *.depend
 *.layout
 *.cbp
+
+# XCode (Mac) Stuff
+.FractaSketchMac/
+/FractaSketchMac/*
