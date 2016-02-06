@@ -211,7 +211,7 @@ Line Line::ApplyTransform(Transform t) const {
         if(newType == lt_topRight || newType == lt_topLeft)
             newType = (Line::line_type)(newType + 1);
         else
-            (Line::line_type)(newType - 1);
+            newType = (Line::line_type)(newType - 1);
     }
 
     return Line(newType, newStart, newFinish);

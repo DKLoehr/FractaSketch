@@ -67,7 +67,7 @@ void InputBox::OnClick(double xP, double yP) {
     SetCursor((int)((xP - m_rectangle.getPosition().x) / 9 + .5)); ///TODO: Add in scaling properly
 }
 
-void InputBox::SetCursor(int newCursorPos) {
+void InputBox::SetCursor(size_t newCursorPos) {
     int origPos = m_cursorPos;
     m_cursorPos = newCursorPos;
     if(m_cursorPos < 0)

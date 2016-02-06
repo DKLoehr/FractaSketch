@@ -25,6 +25,8 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Level 9"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Level 10"));
     m_window.close();
+
+
 }
 
 Iter_Window::~Iter_Window() {
@@ -40,20 +42,34 @@ void Iter_Window::HandleEvents() {
         return;
     sf::Event event;
     while(m_window.pollEvent(event)) {
-        if(event.type == sf::Event::Closed)
+        switch(event.type) {
+        case sf::Event::Closed:
             m_window.close();
-        else if(event.type == sf::Event::MouseButtonPressed &&
-                event.mouseButton.button == sf::Mouse::Button::Left)
-        {
-            for(int iii = 0; iii < m_elements.size(); iii++) {
-                if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
-                    m_elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
-                    m_elements[m_currentLevel]->SetActive(false);
-                    m_currentLevel = iii;
-                    m_elements[m_currentLevel]->SetActive(true);
-                    m_iterator.SetLevel(iii);
+            break;
+        case sf::Event::MouseButtonPressed:
+            if(event.mouseButton.button == sf::Mouse::Button::Left) {
+                for(size_t iii = 0; iii < m_elements.size(); iii++) {
+                    if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
+                        m_elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
+                        m_elements[m_currentLevel]->SetActive(false);
+                        m_currentLevel = iii;
+                        m_elements[m_currentLevel]->SetActive(true);
+                        m_iterator.SetLevel(m_currentLevel);
+                    }
                 }
             }
+            break;
+        case sf::Event::KeyPressed:
+            if(sf::Keyboard::Num0 <= event.key.code &&
+               event.key.code <= sf::Keyboard::Num9) {
+                m_elements[m_currentLevel]->SetActive(false);
+                m_currentLevel = (event.key.code - sf::Keyboard::Num0);
+                m_elements[m_currentLevel]->SetActive(true);
+                m_iterator.SetLevel(m_currentLevel);
+            }
+            break;
+        default:
+            break;
         }
     }
 }
@@ -77,5 +93,9 @@ void Iter_Window::StartNewIteration(Fractal_Element base) {
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
     }
+    m_elements[m_currentLevel]->SetActive(false);
+    m_currentLevel = 0;
+    m_elements[m_currentLevel]->SetActive(true);
+
     m_iterator.SetBase(base);
 }

@@ -6,8 +6,8 @@
 class InputBox : public GUI_Element
 {
 private:
-    int m_cursorPos;
-    int m_stringPos;
+    size_t m_cursorPos;
+    size_t m_stringPos;
     sf::RectangleShape m_cursor;
 
     std::clock_t m_start;
@@ -15,7 +15,7 @@ private:
 
     bool IsValid(char n);
 
-    void SetCursor(int newCursorPos);
+    void SetCursor(size_t newCursorPos);
 public:
     InputBox(sf::RenderWindow* window, sf::Font* font, int x, int y, int charWidth, int charHeight, std::string cap = "");
 

@@ -16,26 +16,6 @@ private:
 
     std::vector<GUI_Element*> m_elements;
 
-    //TODO: Never actually use names, so just stick all in m_elements
-    // Line type selection
-    Button line_topRight; // 0
-    Button line_botRight; // 1
-    Button line_topLeft;  // 2
-    Button line_botLeft;  // 3
-    Button line_static;   // 4
-    Button line_hidden;   // 5
-
-    // Grid type selection
-    Button grid_none;     // 6
-    Button grid_square;   // 7
-    Button grid_hex;      // 8
-
-    // The button to start drawing the fractal
-    Button draw_button;   // 9
-
-    // Button to clear the element
-    Button clear_button;  // 10
-
     // The grid itself
     Grid m_grid;
 

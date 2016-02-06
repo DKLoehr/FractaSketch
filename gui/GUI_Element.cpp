@@ -27,6 +27,10 @@ GUI_Element::GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, dou
     m_text.setPosition(x, y - 2);
 }
 
+GUI_Element::~GUI_Element() {
+
+}
+
 bool GUI_Element::GetActive() {
     return isActive;
 }

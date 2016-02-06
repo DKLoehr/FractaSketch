@@ -82,7 +82,7 @@ sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
         std::vector<sf::CircleShape>::iterator it;
         for(it = m_grids[gt_hex].begin(); it != m_grids[gt_hex].end(); it++) {
             sf::Vector2f dist = it->getPosition()  - point;
-            int length = sqrt(dist.x*dist.x + dist.y*dist.y);
+            size_t length = sqrt(dist.x*dist.x + dist.y*dist.y);
             if(length < minDist) {
                 minDist = length;
                 minDistPoint = it->getPosition();
