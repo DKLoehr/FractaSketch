@@ -1,6 +1,6 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
-
+#include <cmath>
 #ifndef M_PI
     #define M_PI 3.1415926535897932385
 #endif // M_PI
