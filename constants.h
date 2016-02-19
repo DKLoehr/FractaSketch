@@ -7,9 +7,9 @@
 
 // Grid settings
 #define GRID_TYPE_NUM 3
-#define GRID_SQUARE_SCALE 30.0 // Distance between points
-#define GRID_HEX_SCALE    25.0
-#define GRID_DOT_RAD 1.0
+#define GRID_SQUARE_SCALE 40.0 // Distance between points
+#define GRID_HEX_SCALE    35.0
+#define GRID_DOT_RAD 2.0
 
 // Line settings
 #define LINE_ARROW_HEIGHT 7.5

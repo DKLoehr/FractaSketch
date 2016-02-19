@@ -20,7 +20,8 @@ void Grid::Draw() {
     for(it = m_grids[m_type].begin(); it != m_grids[m_type].end(); it++)
         m_window.draw(*it);
 }
-
+#include <iostream>
+#include <algorithm>
 void Grid::FillGrids() {
     m_grids[gt_none] = std::vector<sf::CircleShape>(0);
 
@@ -37,20 +38,21 @@ void Grid::FillGrids() {
         }
     }
 
-    // Initialize the hex grid by tracking the centers of each hex and
-    // drawing the 6 points around each
-    // TODO: Remove duplicates
-    double dx = 3*GRID_HEX_SCALE,
-           dy = sqrt(3)/2*GRID_HEX_SCALE;
+    // Initialize the hex grid
+    double dy = sqrt(3)/2*GRID_HEX_SCALE;
     rows = m_size.y / dy;
-    cols = m_size.x / dx;
+    cols = m_size.x / 3 / GRID_HEX_SCALE;
     for(int iii = 0; iii < rows; iii++) {
-        for(int jjj = 0; jjj < cols; jjj++) {
-            sf::Vector2f center = m_position
-                                 + sf::Vector2f(jjj*dx, iii*dy)
-                                 + sf::Vector2f(1.5*GRID_HEX_SCALE*(iii % 2 + 1), 0); // Shift left or not based on row num
-            for(int kkk = 0; kkk < 6; kkk++) {
-                point.setPosition(center + (sf::Vector2f(cos(M_PI/3*kkk), sin(M_PI/3*kkk)) * (float)GRID_HEX_SCALE));
+        for(double jjj = 0; jjj < cols; jjj++) {
+            if(iii % 2 == 0) {
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 1)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+            } else {
+                point.setPosition(m_position + sf::Vector2f((3*jjj + .5)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2.5)* GRID_HEX_SCALE, iii * dy));
                 m_grids[gt_hex].push_back(point);
             }
         }
