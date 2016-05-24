@@ -19,7 +19,7 @@
 
 // Fractal Template Settings
 #define TEMPLATE_DOT_RAD GRID_DOT_RAD
-#define TEMPLATE_SELECT_DOT_RAD 4.0 // How close you have to be to a dot to select it
+#define TEMPLATE_SELECT_DOT_RAD 8.0 // How close you have to be to a dot to select it
 #define TEMPLATE_SELECT_LINE_RAD 4.0 // How close you have to be to a line to select it
 
 // GUI settings

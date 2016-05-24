@@ -8,6 +8,8 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     m_currentLine(Line::lt_topRight),
     m_elements(0),
     m_grid(window, sf::Vector2f(0, GUI_HEIGHT_OFFSET), sf::Vector2f(m_window.getSize()), Grid::gt_square),
+    m_startedTemplate(false),
+    m_finishedTemplate(false),
     m_drawingLine(false),
     m_line(m_currentLine, sf::Vector2f(0,0), sf::Vector2f(0,0))
 {
@@ -51,6 +53,10 @@ void Runner::HandleEvents() {
         case sf::Event::MouseButtonPressed:
             if(event.mouseButton.button == sf::Mouse::Button::Right) {
                 m_drawingLine = false;
+                if(m_startedTemplate) {
+                    m_finishedTemplate = true;
+                    m_base.DrawBaseline();
+                }
                 break;
             }
             if(event.mouseButton.y < GUI_HEIGHT_OFFSET) { // Above grid
@@ -58,26 +64,31 @@ void Runner::HandleEvents() {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                         m_elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
                         if(iii <= 5) { // Line type
-                            m_elements[m_currentLine-1]->SetActive(false);
-                            m_currentLine = (Line::line_type)(iii+1);
-                            m_line.SetType(m_currentLine);
-                            m_elements[m_currentLine-1]->SetActive(true);
-                        }
+                            UpdateLineType(iii+1);
+                            }
                         else if(iii < 9){ // Grid
                             m_grid.SetType((Grid::grid_type)(iii-6));
                         } else if(iii == 9) { // Draw
-                            m_iter_window.StartNewIteration(m_base);
+                            m_iter_window.StartNewIteration(m_base.ToElement());
                         } else if(iii == 10) { // Clear
-                            m_base = Fractal_Element();
+                            m_base.Clear();
+                            m_startedTemplate = false;
+                            m_finishedTemplate = false;
                             m_drawingLine = false;
                         }
                     }
                 }
             } else { // On the grid
-                if(!m_drawingLine) {
+                if(!m_startedTemplate) { // Haven't started drawing the template yet
+                    m_startedTemplate = true;
                     m_drawingLine = true;
-                } else {
-                    m_base.AddLine(m_line);
+                    m_base.StartAtPoint(m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))));
+                }
+                else if(!m_finishedTemplate) { // Currently drawing the template
+                    m_base.AddLine(m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))), m_currentLine);
+                } else { // Done drawing the template
+                    m_base.SelectNear(sf::Vector2f(sf::Mouse::getPosition(m_window)));
+                    // TODO: Allow movement of the template
                 }
                 m_line.SetPosition(m_grid.SnapToNearest(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)),
                                    m_grid.SnapToNearest(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)));
@@ -86,11 +97,8 @@ void Runner::HandleEvents() {
         case sf::Event::KeyPressed:
             if(sf::Keyboard::Num1 <= event.key.code &&
                event.key.code <= sf::Keyboard::Num6) {
-                m_elements[m_currentLine-1]->SetActive(false);
-                m_currentLine = (Line::line_type)(event.key.code - sf::Keyboard::Num1+1);
-                m_line.SetType(m_currentLine);
-                m_elements[m_currentLine-1]->SetActive(true);
-            }
+                 UpdateLineType(event.key.code - sf::Keyboard::Num1+1);
+               }
             break;
         default:
             break;
@@ -114,5 +122,13 @@ void Runner::Draw() {
     m_window.display();
 
     m_iter_window.Draw();
+}
+
+void Runner::UpdateLineType(int newTypeButton) {
+    m_elements[m_currentLine-1]->SetActive(false);
+    m_currentLine = (Line::line_type)(newTypeButton);
+    m_line.SetType(m_currentLine);
+    m_elements[m_currentLine-1]->SetActive(true);
+    m_base.ChangeType(m_currentLine);
 }
 

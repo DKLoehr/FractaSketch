@@ -2,6 +2,10 @@
 #include "constants.h"
 
 Fractal_Template::Fractal_Template():
+    m_lines(),
+    m_points(),
+    m_activeLine(-1),
+    m_activePoint(-1),
     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0))
 {
 
@@ -23,6 +27,7 @@ void Fractal_Template::SelectNear(sf::Vector2f clickPos) {
     m_activeLine = -1;
     m_activePoint = -1;
 
+    // Check to see if we're close enough to a point
     for(auto point_it = m_points.begin(); point_it != m_points.end(); point_it++) {
         sf::Vector2f diff = *point_it - clickPos;
         double dist = sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -32,11 +37,19 @@ void Fractal_Template::SelectNear(sf::Vector2f clickPos) {
         }
     }
 
+    // If not, check to see if we're close enough to a line
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
         sf::Vector2f finish = line_it->GetFinish(),
                      start = line_it->GetStart();
         sf::Vector2f line_vec = finish - start;
         double line_len = sqrt(line_vec.x * line_vec.x + line_vec.y * line_vec.y);
+
+        // We want to be in between the two endpoints in order to select the line
+        sf::Vector2f toMidpoint = clickPos - ((start + finish) / 2.0f);
+        double distToMidpoint = sqrt(toMidpoint.x * toMidpoint.x + toMidpoint.y * toMidpoint.y);
+        if(distToMidpoint > line_len / 2) // We're outside the endpoints
+            continue;
+
         double area = fabs((line_vec.y * clickPos.x) - (line_vec.x * clickPos.y) + (finish.x * start.y) - (finish.y * start.x));
         double dist = area / line_len; // Distance from clickPos to the line. Comes from rearranging the formula for a triangle.
         if(dist < TEMPLATE_SELECT_LINE_RAD) {
@@ -45,6 +58,10 @@ void Fractal_Template::SelectNear(sf::Vector2f clickPos) {
             return;
         }
     }
+}
+
+void Fractal_Template::StartAtPoint(sf::Vector2f startPoint) {
+    m_points.push_back(startPoint);
 }
 
 void Fractal_Template::AddLine(sf::Vector2f endpoint, Line::line_type ltype) {
@@ -63,8 +80,7 @@ void Fractal_Template::RemoveLine(size_t index) {
     m_points.erase(m_points.begin() + index);
 
     if(m_points.size() <= 1) { // Too few points to make a line
-        m_points.clear();
-        SetBase(sf::Vector2f(0,0), sf::Vector2f(0,0));
+        Clear();
         return;
     }
 
@@ -84,6 +100,11 @@ void Fractal_Template::RemovePoint(size_t index) {
     else {
         RemoveLine(index);
     }
+}
+
+void Fractal_Template::ChangeType(Line::line_type newType) {
+    if(m_activeLine < m_lines.size())
+        m_lines[m_activeLine].SetType(newType);
 }
 
 void Fractal_Template::SplitLine() { // Splits the active line into to lines of half length
@@ -125,6 +146,24 @@ void Fractal_Template::MovePoint(sf::Vector2f newPos) {
     }
 }
 
+void Fractal_Template::Clear() {
+    m_lines.clear();
+    m_points.clear();
+    m_activeLine = -1;
+    m_activePoint = -1;
+    SetBase(sf::Vector2f(0,0), sf::Vector2f(0,0));
+}
+
+Fractal_Element Fractal_Template::ToElement() {
+    Fractal_Element element;
+    for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
+        Line line = *line_it;
+        line.SetColor(sf::Color::Black);
+        element.AddLine(line);
+    }
+    return element;
+}
+
 void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
         line_it->Draw(window, simple);
@@ -141,6 +180,11 @@ void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
             point.setFillColor(sf::Color::Black);
     }
     m_baseline.Draw(window, simple);
+}
+
+void Fractal_Template::DrawBaseline() {
+    if(m_points.size() >= 2)
+      SetBase(m_points.front(), m_points.back());
 }
 
 void Fractal_Template::SetBase(sf::Vector2f start, sf::Vector2f finish) {

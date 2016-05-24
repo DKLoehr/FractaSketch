@@ -5,7 +5,7 @@ Line::Line(line_type type, sf::Vector2f start, sf::Vector2f finish):
     m_start(start),
     m_finish(finish),
     m_color(sf::Color::Black),
-    m_body(sf::Lines,0)
+    m_body(sf::Lines, 0)
 {
     ConstructBody();
 }
@@ -47,7 +47,7 @@ void Line::Draw(sf::RenderWindow& window, bool simple) const {
 void Line::ConstructBody() {
     m_body.clear();
     m_body.setPrimitiveType(sf::Lines);
-    sf::Color color = sf::Color::Black;
+    sf::Color color = m_color;
 
     if(m_start == m_finish) {
         m_body.append(sf::Vertex(m_start, color));
@@ -149,6 +149,7 @@ void Line::SetPosition(sf::Vector2f start, sf::Vector2f finish) {
 
 void Line::SetColor(sf::Color color) {
     m_color = color;
+    ConstructBody();
 }
 
 Transform Line::Match(const Line& base) const {

@@ -1,7 +1,7 @@
 #ifndef FRACTAL_TEMPLATE_H
 #define FRACTAL_TEMPLATE_H
 
-#include "line.h"
+#include "Fractal_Element.h"
 
 class Fractal_Template {
 private:
@@ -15,6 +15,7 @@ private:
     size_t m_activeLine;
     size_t m_activePoint;
 
+    void SetBase(sf::Vector2f start, sf::Vector2f finish);
 public:
     Fractal_Template();
     ~Fractal_Template();
@@ -24,15 +25,20 @@ public:
     // Selects a line if there is one close enough to the given position
     void SelectNear(sf::Vector2f clickPos);
 
+    void StartAtPoint(sf::Vector2f startPoint); // Adds the given point to m_points
     void AddLine(sf::Vector2f endpoint, Line::line_type ltype);
     void RemoveLine(size_t index);
     void RemovePoint(size_t index);
+    void ChangeType(Line::line_type newType); // Change the selected line's type, if any, to the given type
     void SplitLine(); // Splits the active line into to lines of half length
     void TranslateAll(sf::Vector2f displacement);
     void MovePoint(sf::Vector2f newPos);
+    void Clear();
+
+    Fractal_Element ToElement(); // Convert the template into the equivalent Fractal_Element
 
     void Draw(sf::RenderWindow& window, bool simple) const;
-    void SetBase(sf::Vector2f start, sf::Vector2f finish);
+    void DrawBaseline();
 };
 #endif // FRACTAL_TEMPLATE_H
 
