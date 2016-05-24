@@ -17,6 +17,11 @@
 #define LINE_DOT_SIZE 5.0 // Length of lines in dotted lines
 #define LINE_DOT_DIST 1.0 // Distance between dots in hidden lines
 
+// Fractal Template Settings
+#define TEMPLATE_DOT_RAD GRID_DOT_RAD
+#define TEMPLATE_SELECT_DOT_RAD 4.0 // How close you have to be to a dot to select it
+#define TEMPLATE_SELECT_LINE_RAD 4.0 // How close you have to be to a line to select it
+
 // GUI settings
 #define GUI_HEIGHT_OFFSET 100
 

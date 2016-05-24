@@ -4,6 +4,7 @@ Line::Line(line_type type, sf::Vector2f start, sf::Vector2f finish):
     m_type(type),
     m_start(start),
     m_finish(finish),
+    m_color(sf::Color::Black),
     m_body(sf::Lines,0)
 {
     ConstructBody();
@@ -35,8 +36,8 @@ void Line::Draw(sf::RenderWindow& window, bool simple) const {
         if(m_type == 0 || m_type == 6) { // A hidden or base line
             return; // Don't draw
         }
-        sf::Vertex simpleLine[] = {sf::Vertex(m_start, sf::Color::Black),
-                                   sf::Vertex(m_finish, sf::Color::Black)};
+        sf::Vertex simpleLine[] = {sf::Vertex(m_start, m_color),
+                                   sf::Vertex(m_finish, m_color)};
         window.draw(simpleLine, 2, sf::Lines);
     } else {
         window.draw(m_body);
@@ -144,6 +145,10 @@ void Line::SetPosition(sf::Vector2f start, sf::Vector2f finish) {
     m_finish = finish;
 
     ConstructBody();
+}
+
+void Line::SetColor(sf::Color color) {
+    m_color = color;
 }
 
 Transform Line::Match(const Line& base) const {

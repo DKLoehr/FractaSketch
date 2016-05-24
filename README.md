@@ -1,1 +1,1 @@
-# FractaSketch
+This is a remake of an old program, FractaSketch, which was originally created by Peter Van Roy at the Catholic University of Louvain.

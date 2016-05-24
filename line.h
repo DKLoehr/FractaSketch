@@ -41,6 +41,7 @@ private:
     line_type m_type;
     sf::Vector2f m_start;
     sf::Vector2f m_finish;
+    sf::Color m_color;
 
     sf::VertexArray m_body; // The thing that is actually drawn
 
@@ -53,6 +54,7 @@ public:
 
     void SetType(line_type newType);
     void SetPosition(sf::Vector2f start, sf::Vector2f finish);
+    void SetColor(sf::Color color);
 
     line_type GetType() const;
     sf::Vector2f GetStart() const;
