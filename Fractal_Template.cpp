@@ -2,11 +2,11 @@
 #include "constants.h"
 
 Fractal_Template::Fractal_Template():
+    m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),
     m_lines(),
     m_points(),
     m_activeLine(-1),
-    m_activePoint(-1),
-    m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0))
+    m_activePoint(-1)
 {
 
 }
@@ -17,6 +17,13 @@ Fractal_Template::~Fractal_Template() {
 
 const std::vector<Line>& Fractal_Template::GetLines() const {
     return m_lines;
+}
+
+void Fractal_Template::OnClick(sf::Vector2f clickPos) {
+    size_t oldLine = m_activeLine;
+    SelectNear(clickPos);
+    if(oldLine == m_activeLine && m_activeLine < m_lines.size())
+        SplitLine(m_activeLine);
 }
 
 // Selects a line or point if there is one close enough to the given position
@@ -70,25 +77,24 @@ void Fractal_Template::AddLine(sf::Vector2f endpoint, Line::line_type ltype) {
 }
 
 void Fractal_Template::RemoveLine(size_t index) {
-    // TODO: Ensure index is valid
-    if(index >= m_lines.size()) {
-        //std::cout << "Invalid index in RemoveLine: " << index << "\n";
-        return;
-    }
-
     m_lines.erase(m_lines.begin() + index);
-    m_points.erase(m_points.begin() + index);
+    if(index != m_lines.size()) // Erase the start point if it's not the last line
+        m_points.erase(m_points.begin() + index);
+    else // If it was the last line, erase its endpoint instead
+        m_points.pop_back();
 
     if(m_points.size() <= 1) { // Too few points to make a line
         Clear();
         return;
     }
 
-    if(index == 0 || index == m_lines.size() - 1) { // Removing the first or last lines
+    if(index == 0 || index == m_lines.size()) { // Removing the first or last lines
         SetBase(m_points.front(), m_points.back());
     } else { // Somewhere in the middle
         m_lines[index - 1].SetPosition(m_points[index - 1], m_points[index]);
     }
+
+    m_activeLine = -1;
 }
 
 void Fractal_Template::RemovePoint(size_t index) {
@@ -100,6 +106,14 @@ void Fractal_Template::RemovePoint(size_t index) {
     else {
         RemoveLine(index);
     }
+    m_activePoint = -1;
+}
+
+void Fractal_Template::RemoveSelected() {
+    if(m_activeLine < m_lines.size())
+        RemoveLine(m_activeLine);
+    else if(m_activePoint < m_points.size())
+        RemovePoint(m_activePoint);
 }
 
 void Fractal_Template::ChangeType(Line::line_type newType) {
@@ -107,15 +121,20 @@ void Fractal_Template::ChangeType(Line::line_type newType) {
         m_lines[m_activeLine].SetType(newType);
 }
 
-void Fractal_Template::SplitLine() { // Splits the active line into to lines of half length
-    if(m_activeLine >= m_lines.size())
-        return;
-
-    size_t index = m_activeLine;
+void Fractal_Template::SplitLine(size_t index) { // Splits the active line into to lines of half length
     sf::Vector2f midpoint = (m_lines[index].GetStart() + m_lines[index].GetFinish()) / 2.0f;
     m_points.insert(m_points.begin() + (index + 1), midpoint);
     m_lines[index].SetPosition(m_points[index], m_points[index + 1]);
+    m_lines[index].SetColor(sf::Color::Black);
     m_lines.insert(m_lines.begin() + (index + 1), Line(m_lines[index].GetType(), m_points[index + 1], m_points[index + 2]));
+    m_activeLine = -1;
+    m_activePoint = -1;
+}
+
+void Fractal_Template::Translate(sf::Vector2f displacement) {
+    if(m_activeLine >= m_lines.size() &&
+       m_activePoint >= m_points.size()) // Don't have anything currently active
+        TranslateAll(-1.0f * displacement);
 }
 
 void Fractal_Template::TranslateAll(sf::Vector2f displacement) {
@@ -125,6 +144,7 @@ void Fractal_Template::TranslateAll(sf::Vector2f displacement) {
     for(size_t iii = 0; iii < m_lines.size(); iii++) {
         m_lines[iii].SetPosition(m_points[iii], m_points[iii + 1]);
     }
+    SetBase(m_points.front(), m_points.back());
 }
 
 // Moves the active point to the the given position
@@ -154,7 +174,7 @@ void Fractal_Template::Clear() {
     SetBase(sf::Vector2f(0,0), sf::Vector2f(0,0));
 }
 
-Fractal_Element Fractal_Template::ToElement() {
+Fractal_Element Fractal_Template::ToElement() const {
     Fractal_Element element;
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
         Line line = *line_it;

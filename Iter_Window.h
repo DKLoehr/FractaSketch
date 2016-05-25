@@ -22,6 +22,7 @@ public:
     void Draw();
 
     void StartNewIteration(Fractal_Element base);
+    void UpdateLevel(size_t newLevel);
 };
 
 #endif // ITER_WINDOW_H

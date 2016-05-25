@@ -11,7 +11,8 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     m_startedTemplate(false),
     m_finishedTemplate(false),
     m_drawingLine(false),
-    m_line(m_currentLine, sf::Vector2f(0,0), sf::Vector2f(0,0))
+    m_line(m_currentLine, sf::Vector2f(0,0), sf::Vector2f(0,0)),
+    m_mouseHeld(false)
 {
     //TODO: Make relative to window & each other
     // Line Selection Buttons
@@ -47,7 +48,14 @@ void Runner::HandleEvents() {
             break;
         case sf::Event::MouseMoved:
             if(event.mouseButton.y > GUI_HEIGHT_OFFSET) {
-                m_line.SetPosition(m_line.GetStart(), m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))));
+                sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
+                sf::Vector2f gridPos = m_grid.SnapToNearest(mousePos);
+                m_line.SetPosition(m_line.GetStart(), gridPos);
+                if(m_mouseHeld && m_finishedTemplate) {
+                    m_base.MovePoint(gridPos);
+                    m_base.Translate(gridPos - m_line.GetStart());
+                    m_line.SetPosition(gridPos, m_line.GetFinish());
+                }
             }
             break;
         case sf::Event::MouseButtonPressed:
@@ -59,14 +67,15 @@ void Runner::HandleEvents() {
                 }
                 break;
             }
+            m_mouseHeld = true;
             if(event.mouseButton.y < GUI_HEIGHT_OFFSET) { // Above grid
                 for(size_t iii = 0; iii < m_elements.size(); iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                         m_elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
                         if(iii <= 5) { // Line type
                             UpdateLineType(iii+1);
-                            }
-                        else if(iii < 9){ // Grid
+                        }
+                        else if(iii < 9) { // Grid
                             m_grid.SetType((Grid::grid_type)(iii-6));
                         } else if(iii == 9) { // Draw
                             m_iter_window.StartNewIteration(m_base.ToElement());
@@ -87,7 +96,7 @@ void Runner::HandleEvents() {
                 else if(!m_finishedTemplate) { // Currently drawing the template
                     m_base.AddLine(m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))), m_currentLine);
                 } else { // Done drawing the template
-                    m_base.SelectNear(sf::Vector2f(sf::Mouse::getPosition(m_window)));
+                    m_base.OnClick(sf::Vector2f(sf::Mouse::getPosition(m_window)));
                     // TODO: Allow movement of the template
                 }
                 m_line.SetPosition(m_grid.SnapToNearest(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)),
@@ -98,8 +107,15 @@ void Runner::HandleEvents() {
             if(sf::Keyboard::Num1 <= event.key.code &&
                event.key.code <= sf::Keyboard::Num6) {
                  UpdateLineType(event.key.code - sf::Keyboard::Num1+1);
-               }
+            }
+            else if(event.key.code == sf::Keyboard::Delete ||
+                    event.key.code == sf::Keyboard::BackSpace) {
+                m_base.RemoveSelected();
+            }
             break;
+        case sf::Event::MouseButtonReleased:
+            if(event.mouseButton.button == sf::Mouse::Button::Left)
+                m_mouseHeld = false;
         default:
             break;
         }
@@ -129,6 +145,7 @@ void Runner::UpdateLineType(int newTypeButton) {
     m_currentLine = (Line::line_type)(newTypeButton);
     m_line.SetType(m_currentLine);
     m_elements[m_currentLine-1]->SetActive(true);
-    m_base.ChangeType(m_currentLine);
+    if(m_finishedTemplate)
+        m_base.ChangeType(m_currentLine);
 }
 

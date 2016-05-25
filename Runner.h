@@ -25,6 +25,8 @@ private:
     bool m_drawingLine;
     Line m_line;
 
+    bool m_mouseHeld;
+
 public:
     Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font& font);
     ~Runner();
