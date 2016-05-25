@@ -46,14 +46,15 @@ There is a known issue where you have to click on the titlebar of the new window
 
 To exit the program, close the main window. Feel free to close the iteration window when you're done with it; it won't stop the program and will come back next time you draw.
 
-Changelog:
+=============
+## Changelog:
 
-v0.2 Beta:
+#### v0.2 Beta:
 * Added ability to select lines and points on the template
 * Lines and points can now be deleted
 * Lines can change type after being placed
 * Points can be moved
 * The entire template can be moved around the window
 
-v0.1:
-*Initial Release!
+#### v0.1:
+* Initial Release!
