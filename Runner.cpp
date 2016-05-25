@@ -67,7 +67,6 @@ void Runner::HandleEvents() {
                 }
                 break;
             }
-            m_mouseHeld = true;
             if(event.mouseButton.y < GUI_HEIGHT_OFFSET) { // Above grid
                 for(size_t iii = 0; iii < m_elements.size(); iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
@@ -88,6 +87,7 @@ void Runner::HandleEvents() {
                     }
                 }
             } else { // On the grid
+                m_mouseHeld = true;
                 if(!m_startedTemplate) { // Haven't started drawing the template yet
                     m_startedTemplate = true;
                     m_drawingLine = true;
