@@ -49,12 +49,12 @@ To exit the program, close the main window. Feel free to close the iteration win
 =============
 ## Changelog:
 
-#### v0.2 Beta:
+###### v0.2 Beta:
 * Added ability to select lines and points on the template
 * Lines and points can now be deleted
 * Lines can change type after being placed
 * Points can be moved
 * The entire template can be moved around the window
 
-#### v0.1:
+###### v0.1:
 * Initial Release!
