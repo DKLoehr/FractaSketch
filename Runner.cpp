@@ -25,7 +25,7 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     // Grid Selection Buttons
     m_elements.push_back(new Button(&window, &font, 635, 5, 100, 15, "No Grid"));
     m_elements.push_back(new Button(&window, &font, 740, 5, 100, 15, "Square Grid"));
-    m_elements.push_back(new Button(&window, &font, 845, 5, 100, 15, "Hex Grid"));
+    m_elements.push_back(new Button(&window, &font, 845, 5, 100, 15, "Tri Grid"));
     // Action Buttons
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Draw"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Clear"));

@@ -18,7 +18,7 @@ Along the top of the screen there are several buttons. The first 6 refer to line
 
 Most lines, when drawn, will have an arrowhead; this will be matched with the arrowhead on the baseline during iterations. Thus the line type determines the orientation of the replacing element after iteration. The line types designate where on the line the arrowhead would appear if line was drawn horizontally to the right. Static lines have no arrowhead and are not replaced during iterations. Hidden lines are "fuzzier", have no arrowhead, and are neither replaced nor shown during iteration.
 
-There are three grid settings (none, square, hex), which you can change by clicking on the appropriate buttons on the top. If there is a grid, everything will snap to it.
+There are three grid settings (none, square, triangle), which you can change by clicking on the appropriate buttons on the top. If there is a grid, everything will snap to it.
 
 ### Creating a Template:
 Click once on the grid to start drawing. Click again to put down a line of whatever type you have selected. You can change the type by clicking the buttons or using the number keys 1-6 (not the numpad, though).
@@ -55,6 +55,7 @@ To exit the program, close the main window. Feel free to close the iteration win
 * Lines can change type after being placed
 * Points can be moved
 * The entire template can be moved around the window
+* Changed hex grid to triangle grid (same as before, but also displays the midpoint of each hex)
 
 ###### v0.1:
 * Initial Release!
