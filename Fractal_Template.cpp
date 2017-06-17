@@ -99,9 +99,24 @@ void Fractal_Template::RemoveLine(size_t index) {
 
 void Fractal_Template::RemovePoint(size_t index) {
     if(index == m_points.size() - 1) {
+        if(m_lines.size() > 0)
+            m_lines.pop_back();
+        if(m_points.size() > 2) {
+            m_points.pop_back();
+            SetBase(m_points.front(), m_points.back());
+        }
+        else {
+            Clear();
+        }
+    }
+    else if (index == m_points.size() - 2) {
         m_lines.pop_back();
-        m_points.pop_back();
-        SetBase(m_points.front(), m_points.back());
+        if(m_lines.size() == 0) {
+            Clear();
+            return;
+        }
+        m_points.erase(m_points.end() - 2);
+        m_lines[m_lines.size()-1].SetPosition(m_points[m_points.size()-2], m_points.back());
     }
     else {
         RemoveLine(index);

@@ -49,13 +49,17 @@ To exit the program, close the main window. Feel free to close the iteration win
 =============
 ## Changelog:
 
+###### v0.2:
+* Changed hex grid to triangle grid (same as before, but also displays the midpoint of each hex)
+* Fix bug on macs where the progra would not correctly detect when the mouse was being held down
+* Fix bug causing program to crash when removing the last points or lines from a template
+
 ###### v0.2 Beta:
 * Added ability to select lines and points on the template
 * Lines and points can now be deleted
 * Lines can change type after being placed
 * Points can be moved
 * The entire template can be moved around the window
-* Changed hex grid to triangle grid (same as before, but also displays the midpoint of each hex)
 
 ###### v0.1:
 * Initial Release!

@@ -42,18 +42,18 @@ void Runner::HandleEvents() {
     m_iter_window.HandleEvents();
     sf::Event event;
     while(m_window.pollEvent(event)) {
+    sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
     switch(event.type) {
         case sf::Event::Closed:
             m_window.close();
             break;
         case sf::Event::MouseMoved:
-            if(event.mouseButton.y > GUI_HEIGHT_OFFSET) {
-                sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
+            if(mousePos.y > GUI_HEIGHT_OFFSET) {
                 sf::Vector2f gridPos = m_grid.SnapToNearest(mousePos);
                 m_line.SetPosition(m_line.GetStart(), gridPos);
                 if(m_mouseHeld && m_finishedTemplate) {
                     m_base.MovePoint(gridPos);
-                    m_base.Translate(gridPos - m_line.GetStart());
+                    m_base.Translate(m_line.GetStart() - gridPos);
                     m_line.SetPosition(gridPos, m_line.GetFinish());
                 }
             }
@@ -91,13 +91,12 @@ void Runner::HandleEvents() {
                 if(!m_startedTemplate) { // Haven't started drawing the template yet
                     m_startedTemplate = true;
                     m_drawingLine = true;
-                    m_base.StartAtPoint(m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))));
+                    m_base.StartAtPoint(m_grid.SnapToNearest(mousePos));
                 }
                 else if(!m_finishedTemplate) { // Currently drawing the template
-                    m_base.AddLine(m_grid.SnapToNearest(sf::Vector2f(sf::Mouse::getPosition(m_window))), m_currentLine);
+                    m_base.AddLine(m_grid.SnapToNearest(mousePos), m_currentLine);
                 } else { // Done drawing the template
-                    m_base.OnClick(sf::Vector2f(sf::Mouse::getPosition(m_window)));
-                    // TODO: Allow movement of the template
+                    m_base.OnClick(mousePos);
                 }
                 m_line.SetPosition(m_grid.SnapToNearest(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)),
                                    m_grid.SnapToNearest(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)));
