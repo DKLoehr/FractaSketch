@@ -9,6 +9,7 @@ private:
     size_t m_currentLevel;
 
     void IterateTo(size_t level);
+    void IterateToInfinity();
 public:
     Fractal_Iterator();
     ~Fractal_Iterator();

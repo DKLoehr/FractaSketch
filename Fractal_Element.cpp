@@ -10,6 +10,10 @@ Fractal_Element::~Fractal_Element() {
 
 }
 
+double Fractal_Element::BaseLength() {
+    return m_baseline.Length();
+}
+
 void Fractal_Element::AddLine(Line newLine) {
     m_lines.push_back(newLine);
     m_baseline.SetPosition(m_lines[0].GetStart(), newLine.GetFinish());
@@ -41,7 +45,10 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Element& target) const
         Fractal_Element transformed = target.TransformAll(target.MatchBase(*line_it));
         std::vector<Line> transLines = transformed.GetLines();
         for(auto trans_it = transLines.begin(); trans_it != transLines.end(); trans_it++) {
-            newFE.AddLine(*trans_it);
+            Line transformed_line = *trans_it;
+            if(transformed_line.Length() < 1)
+                transformed_line.SetType(Line::lt_static);
+            newFE.AddLine(transformed_line);
         }
     }
     newFE.SetBase(m_baseline.GetStart(), m_baseline.GetFinish());

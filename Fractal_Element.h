@@ -22,5 +22,7 @@ public:
     void Draw(sf::RenderWindow& window, bool simple) const;
     void SetBase(sf::Vector2f start, sf::Vector2f finish);
 
+    double BaseLength();
+
 };
 #endif // FRACTAL_ELEMENT_H

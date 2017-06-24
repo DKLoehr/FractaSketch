@@ -26,6 +26,6 @@
 #define GUI_HEIGHT_OFFSET 100
 
 // Iterator settings
-#define ITERATOR_LEVELS 11
+#define ITERATOR_LEVELS 3
 
 #endif // CONSTANTS_H

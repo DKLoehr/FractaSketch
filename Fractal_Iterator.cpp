@@ -22,17 +22,32 @@ void Fractal_Iterator::SetBase(Fractal_Element newBase) {
 }
 
 void Fractal_Iterator::SetLevel(size_t level) {
-    if(level > ITERATOR_LEVELS)
-        level = ITERATOR_LEVELS - 1; // No infinity yet
-    m_currentLevel = level;
-    IterateTo(level);
+    if(level > ITERATOR_LEVELS) {
+        m_currentLevel = ITERATOR_LEVELS + 1;
+        IterateToInfinity();
+    } else {
+        m_currentLevel = level;
+        IterateTo(level);
+    }
 }
 
 void Fractal_Iterator::IterateTo(size_t level) {
     if(level < m_levels.size())
         return;
     for(size_t iii = m_levels.size(); iii <= level; iii++) {
-        Fractal_Element nextFE = m_levels[0].ReplaceAll(m_levels[iii - 1]);
+        Fractal_Element nextFE = m_levels[iii - 1].ReplaceAll(m_levels[0]);
         m_levels.push_back(nextFE);
     }
+}
+
+void Fractal_Iterator::IterateToInfinity() {
+    IterateTo(ITERATOR_LEVELS);
+    Fractal_Element nextFe = m_levels[m_levels.size() - 1];
+    while (nextFe.BaseLength() > 10)
+        nextFe = nextFe.ReplaceAll(m_levels[0]);
+
+    if (m_levels.size() <= ITERATOR_LEVELS)
+        m_levels.pop_back();
+
+    m_levels.push_back(nextFe);
 }

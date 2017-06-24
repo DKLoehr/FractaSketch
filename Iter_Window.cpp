@@ -23,7 +23,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_elements.push_back(new Button(&window, &font, 740, 5, 100, 15, "Level 7"));
     m_elements.push_back(new Button(&window, &font, 845, 5, 100, 15, "Level 8"));
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Level 9"));
-    m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Level 10"));
+    m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Infinity"));
     m_window.close();
 }
 
