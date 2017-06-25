@@ -47,6 +47,9 @@ public:
 
     void Draw(sf::RenderWindow& window, bool simple) const;
     void DrawBaseline();
+
+    bool SaveToFile(std::string filename);
+    bool LoadFromFile(std::string filename);
 };
 #endif // FRACTAL_TEMPLATE_H
 

@@ -1,5 +1,7 @@
 #include "Fractal_Template.h"
 #include "constants.h"
+#include <fstream>
+#include <string>
 
 Fractal_Template::Fractal_Template():
     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),
@@ -233,4 +235,60 @@ void Fractal_Template::DrawBaseline() {
 
 void Fractal_Template::SetBase(sf::Vector2f start, sf::Vector2f finish) {
     m_baseline.SetPosition(start, finish);
+}
+
+bool Fractal_Template::SaveToFile(std::string filename) {
+    std::ofstream outFile;
+    outFile.open(filename);
+    if(!outFile.is_open())
+        return false;
+
+    if(m_points.size() == 0) {
+        outFile.close();
+        return true;
+    }
+
+    outFile << m_points[0].x << " " << m_points[0].y;
+    for(size_t iii = 0; iii < m_lines.size(); iii++) {
+        outFile << (int)(m_lines[iii].GetType());
+        outFile << m_points[iii+1].x << " " << m_points[iii+1].y;
+    }
+
+    outFile.close();
+    return true;
+}
+
+bool Fractal_Template::LoadFromFile(std::string filename) {
+    std::ifstream inFile;
+    inFile.open(filename);
+    if(!inFile.is_open())
+        return false;
+
+    Clear();
+    int line_type;
+    double x, y;
+
+    if(inFile >> x >> y) {
+        StartAtPoint(sf::Vector2f(x,y));
+    } else if (inFile.fail() || inFile.bad()) {
+        inFile.close();
+        return false; // Bad input
+    } else {
+        inFile.close();
+        return true; // Empty file
+    }
+
+    while(inFile >> line_type >> x >> y) {
+        AddLine(sf::Vector2f(x,y), (Line::line_type)line_type);
+    }
+
+    if (inFile.fail() || inFile.bad()) {
+        inFile.close();
+        return false; // Bad input
+    }
+
+    DrawBaseline();
+
+    inFile.close();
+    return true;
 }
