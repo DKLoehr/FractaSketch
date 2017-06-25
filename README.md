@@ -49,6 +49,11 @@ To exit the program, close the main window. Feel free to close the iteration win
 =============
 ## Changelog:
 
+###### v0.2.3:
+* Make high-level iteration MUCH faster
+* Add infinity level
+* Change triangle grid back to hex grid by popular demand
+
 ###### v0.2.2:
 * Changed hex grid to triangle grid (same as before, but also displays the midpoint of each hex)
 * Fix bug on macs where the progra would not correctly detect when the mouse was being held down

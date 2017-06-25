@@ -38,26 +38,26 @@ void Grid::FillGrids() {
         }
     }
 
-    // Initialize the triangle grid
-    double dy = sqrt(3)/2*GRID_TRI_SCALE;
+    // Initialize the hex grid
+    double dy = sqrt(3)/2*GRID_HEX_SCALE;
     rows = m_size.y / dy;
-    cols = m_size.x / 3 / GRID_TRI_SCALE;
+    cols = m_size.x / 3 / GRID_HEX_SCALE;
     for(int iii = 0; iii < rows; iii++) {
         for(double jjj = 0; jjj < cols; jjj++) {
             if(iii % 2 == 0) {
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 0)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 1)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 2)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 0)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 1)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
             } else {
-                point.setPosition(m_position + sf::Vector2f((3*jjj + .5)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 1.5)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 2.5)* GRID_TRI_SCALE, iii * dy));
-                m_grids[gt_tri].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + .5)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 1.5)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2.5)* GRID_HEX_SCALE, iii * dy));
+                m_grids[gt_hex].push_back(point);
             }
         }
     }
@@ -69,7 +69,7 @@ void Grid::SetType(grid_type newType) {
 
 // Returns the point on the grid nearest to the input point.
 // If there is no grid, returns the input
-// TODO: The implementation for triangle grids is ridiculously inefficient.
+// TODO: The implementation for hex grids is ridiculously inefficient.
 // I haven't noticed a performance hit yet, but it should be dealt with
 sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
     if(m_type == gt_none)
@@ -82,12 +82,12 @@ sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
         point.x = ((int)((point.x - m_position.x)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.x;
         point.y = ((int)((point.y - m_position.y)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.y;
         return point;
-    } else { // Triangle grid
+    } else { // Hex grid
         // We literally just iterate through every point and find the minimum distance to any of them
         unsigned int minDist = -1;
         sf::Vector2f minDistPoint = point;
         std::vector<sf::CircleShape>::iterator it;
-        for(it = m_grids[gt_tri].begin(); it != m_grids[gt_tri].end(); it++) {
+        for(it = m_grids[gt_hex].begin(); it != m_grids[gt_hex].end(); it++) {
             sf::Vector2f dist = it->getPosition()  - point;
             size_t length = sqrt(dist.x*dist.x + dist.y*dist.y);
             if(length < minDist) {

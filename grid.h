@@ -10,7 +10,7 @@ class Grid
 public: enum grid_type {
     gt_none = 0,  // Invisible
     gt_square = 1,
-    gt_tri = 2
+    gt_hex = 2
 };
 
 private:
