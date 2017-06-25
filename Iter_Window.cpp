@@ -23,6 +23,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_elements.push_back(new Button(&window, &font, 845, 5, 100, 15, "Level 8"));
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Level 9"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Infinity"));
+    m_elements.push_back(new Button(&window, &font, 5, 25, 100, 15, "Save"));
     m_window.close();
 }
 
@@ -45,7 +46,7 @@ void Iter_Window::HandleEvents() {
             break;
         case sf::Event::MouseButtonPressed:
             if(event.mouseButton.button == sf::Mouse::Button::Left) {
-                for(size_t iii = 0; iii < m_elements.size(); iii++) {
+                for(size_t iii = 0; iii <= ITERATOR_LEVELS + 1; iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                         m_elements[iii]->OnClick(event.mouseButton.x, event.mouseButton.y);
                         m_elements[m_currentLevel]->SetActive(false);
@@ -54,6 +55,18 @@ void Iter_Window::HandleEvents() {
                         m_iterator.SetLevel(m_currentLevel);
                     }
                 }
+                // Save button
+                if(m_elements[ITERATOR_LEVELS + 2]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
+                    sf::RenderTexture tex;
+                    tex.create(m_window.getSize().x, m_window.getSize().y);
+                    tex.clear(sf::Color::White);
+                    m_iterator.Draw(tex);
+                    tex.display();
+
+                    sf::Image img = tex.getTexture().copyToImage();
+                    if (!img.saveToFile("result.png"))
+                        std::cout << "Failed to save image to file!\n";
+                    }
             }
             break;
         case sf::Event::KeyPressed:
