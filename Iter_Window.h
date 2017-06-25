@@ -1,7 +1,8 @@
 #ifndef ITER_WINDOW_H
 #define ITER_WINDOW_H
 
-#include "gui/Button.h"
+#include "gui/GUI_Element.h"
+#include "gui/text.h"
 #include "Fractal_Iterator.h"
 
 class Iter_Window {
@@ -10,6 +11,8 @@ private:
     sf::Font& m_font;
 
     Fractal_Iterator m_iterator;
+    InputBox m_input;
+    InputBox m_saved;
     std::vector<GUI_Element*> m_elements;
 
     size_t m_currentLevel;
