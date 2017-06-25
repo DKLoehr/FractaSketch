@@ -40,14 +40,19 @@ If weird stuff is happening and you can't edit your template, hit Clear.
 ### Drawing the Fractal
 To create a fractal from your template, hit the Draw button. This will create a new window on top of the previous one with your template on it. 
 
-You can then click the buttons on top (or use the number keys again) to go to the corresponding level of iteration. Note that due to its position, the 0 key is mapped to level 10, not level 0. The tilde key is mapped to level 0 instead. Currently, the maximum level is 10. However, the drawing is currently highly unoptimized, so it is not recommended that you go above level 5 or 6 except on any but the simplest templates.
+You can then click the buttons on top (you can't use the number keys here) to go to the corresponding level of iteration. Note that due to its position, the 0 key is mapped to the special level "Infinity", not level 0. The tilde key is mapped to level 0 instead.
 
-There is a known issue where you have to click on the titlebar of the new window before you can click on the buttons; the number keys seem to work regardless. 
+Iterating fractals to high levels of complexity is a very slow operation. To speed this up, the program stops replacing lines once they have reached a certain length (currently a few pixels). The special level "Infinity" will iterate the fractal until all lines are at or below that length. Accordingly, attempting to reach the infinity level for a template whose lines shrink slowly will take a while and may cause the program to run out of memory. Attempty to reach the infinity level for a template whose lines grow is a Bad Idea.
+
+You can save the results of your iteration to a file by specifying the file name and hitting the "save" button. The path may be either absolute or relative; in the latter case, the base directory is the one with the FractaSketch executable. Make sure you use '\' and not '/' if you're on Windows!
 
 To exit the program, close the main window. Feel free to close the iteration window when you're done with it; it won't stop the program and will come back next time you draw.
 
 =============
 ## Changelog:
+
+##### v0.2.4:
+* Add ability to save iteration results to a file
 
 ###### v0.2.3:
 * Make high-level iteration MUCH faster
