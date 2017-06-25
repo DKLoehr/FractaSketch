@@ -196,6 +196,7 @@ Fractal_Element Fractal_Template::ToElement() const {
         line.SetColor(sf::Color::Black);
         element.AddLine(line);
     }
+    element.SetBase(m_baseline.GetStart(), m_baseline.GetFinish());
     return element;
 }
 

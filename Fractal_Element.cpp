@@ -1,7 +1,8 @@
 #include "Fractal_Element.h"
 
 Fractal_Element::Fractal_Element():
-     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0))
+     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),
+     m_maxLength(0)
 {
 
 }
@@ -14,9 +15,21 @@ double Fractal_Element::BaseLength() {
     return m_baseline.Length();
 }
 
+double Fractal_Element::GetMaxLength() {
+    return m_maxLength;
+}
+
 void Fractal_Element::AddLine(Line newLine) {
+    // Hidden lines are useless for iteration, so get rid of them.
+    if(newLine.GetType() == Line::line_type::lt_hidden)
+        return;
     m_lines.push_back(newLine);
-    m_baseline.SetPosition(m_lines[0].GetStart(), newLine.GetFinish());
+    if(newLine.GetType() != Line::line_type::lt_static)
+    {
+      double newLen = newLine.Length();
+      if(newLen > m_maxLength)
+        m_maxLength = newLen;
+    }
 }
 
 const std::vector<Line>& Fractal_Element::GetLines() const {
@@ -38,7 +51,7 @@ Fractal_Element Fractal_Element::TransformAll(Transform t) const {
 Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Element& target) const {
     Fractal_Element newFE;
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        if(line_it->GetType() == Line::lt_static || line_it->GetType() == Line::lt_hidden) {
+        if(line_it->GetType() == Line::lt_static) {
             newFE.AddLine(*line_it);
             continue;
         }
@@ -46,7 +59,7 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Element& target) const
         std::vector<Line> transLines = transformed.GetLines();
         for(auto trans_it = transLines.begin(); trans_it != transLines.end(); trans_it++) {
             Line transformed_line = *trans_it;
-            if(transformed_line.Length() < 1)
+            if(transformed_line.Length() < INFINITY_STOP_SIZE)
                 transformed_line.SetType(Line::lt_static);
             newFE.AddLine(transformed_line);
         }

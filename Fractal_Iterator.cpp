@@ -39,15 +39,16 @@ void Fractal_Iterator::IterateTo(size_t level) {
         m_levels.push_back(nextFE);
     }
 }
-
+#include <iostream>
 void Fractal_Iterator::IterateToInfinity() {
+    // If we already iterated to infinity once before
+    if (m_levels.size() > ITERATOR_LEVELS + 1)
+        return;
+
     IterateTo(ITERATOR_LEVELS);
-    Fractal_Element nextFe = m_levels[m_levels.size() - 1];
-    while (nextFe.BaseLength() > 10)
+    Fractal_Element nextFe = m_levels[ITERATOR_LEVELS];
+    while (nextFe.GetMaxLength() > INFINITY_STOP_SIZE) {
         nextFe = nextFe.ReplaceAll(m_levels[0]);
-
-    if (m_levels.size() <= ITERATOR_LEVELS)
-        m_levels.pop_back();
-
+    }
     m_levels.push_back(nextFe);
 }

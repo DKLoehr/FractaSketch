@@ -26,6 +26,7 @@
 #define GUI_HEIGHT_OFFSET 100
 
 // Iterator settings
-#define ITERATOR_LEVELS 3
+#define ITERATOR_LEVELS 9
+#define INFINITY_STOP_SIZE 5
 
 #endif // CONSTANTS_H
