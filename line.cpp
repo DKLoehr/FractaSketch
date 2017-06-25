@@ -31,16 +31,16 @@ sf::Vector2f Line::FromOrigin() const {
     return m_finish - m_start;
 };
 
-void Line::Draw(sf::RenderWindow& window, bool simple) const {
+void Line::Draw(sf::RenderTarget& target, bool simple) const {
     if(simple) { // Just draw a straight line
         if(m_type == lt_hidden || m_type == lt_base) {
             return; // Don't draw
         }
         sf::Vertex simpleLine[] = {sf::Vertex(m_start, m_color),
                                    sf::Vertex(m_finish, m_color)};
-        window.draw(simpleLine, 2, sf::Lines);
+        target.draw(simpleLine, 2, sf::Lines);
     } else {
-        window.draw(m_body);
+        target.draw(m_body);
     }
 }
 

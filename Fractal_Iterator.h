@@ -17,7 +17,7 @@ public:
     Fractal_Iterator();
     ~Fractal_Iterator();
 
-    void Draw(sf::RenderWindow& window);
+    void Draw(sf::RenderTarget& target);
     void SetBase(Fractal_Template newBase);
     void SetLevel(size_t level);
 };

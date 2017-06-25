@@ -61,16 +61,15 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Template& target) cons
     return newFE;
 }
 
-void Fractal_Element::Draw(sf::RenderWindow& window, bool simple) const {
+void Fractal_Element::Draw(sf::RenderTarget& target, bool simple) const {
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        line_it->Draw(window, simple);
+        line_it->Draw(target, simple);
     }
     auto line_it = statics->begin();
     for(size_t iii = 0; iii < m_statics_end; iii++) {
-        line_it->Draw(window, simple);
+        line_it->Draw(target, simple);
         line_it++;
     }
-    m_baseline.Draw(window, simple);
 }
 
 void Fractal_Element::SetBase(sf::Vector2f start, sf::Vector2f finish) {

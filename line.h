@@ -64,7 +64,7 @@ public:
     Transform Match(const Line& base) const;
     Line ApplyTransform(Transform t) const;
 
-    void Draw(sf::RenderWindow& window, bool simple) const;
+    void Draw(sf::RenderTarget& target, bool simple) const;
 };
 
 

@@ -10,8 +10,8 @@ Fractal_Iterator::~Fractal_Iterator() {
 
 }
 
-void Fractal_Iterator::Draw(sf::RenderWindow& window) {
-    m_levels[m_currentLevel].Draw(window, true);
+void Fractal_Iterator::Draw(sf::RenderTarget& target) {
+    m_levels[m_currentLevel].Draw(target, true);
 }
 
 void Fractal_Iterator::SetBase(Fractal_Template newBase) {
