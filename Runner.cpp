@@ -1,5 +1,8 @@
 #include "Runner.h"
 
+#include "gui/button.h"
+#include "gui/text.h"
+
 Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font& font) :
     m_window(window),
     m_font(font),
@@ -7,6 +10,7 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     m_base(),
     m_currentLine(Line::lt_topRight),
     m_elements(0),
+    m_success(&window, &font, 930, 30, 100, 15, ""),
     m_grid(window, sf::Vector2f(0, GUI_HEIGHT_OFFSET), sf::Vector2f(m_window.getSize()), Grid::gt_square),
     m_startedTemplate(false),
     m_finishedTemplate(false),
@@ -29,7 +33,15 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     // Action Buttons
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Draw"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Clear"));
+    // Save/Load
+    m_elements.push_back(new Button(&window, &font, 5, 30, 100, 15, "Load"));
+    m_elements.push_back(new InputBox(&window, &font, 110, 30, 300, 15, "File:"));
+    m_elements.push_back(new Button(&window, &font, 470, 30, 100, 15, "Save"));
+    m_elements.push_back(new InputBox(&window, &font, 575, 30, 300, 15, "File:"));
     m_elements[m_currentLine-1]->SetActive(true);
+
+    m_success.SetOutlineColor(sf::Color::White);
+    m_activeBox = -1; // Load file
 }
 
 Runner::~Runner() {
@@ -67,6 +79,10 @@ void Runner::HandleEvents() {
                 }
                 break;
             }
+            if(m_activeBox < m_elements.size()) {
+                    m_elements[m_activeBox]->SetActive(false); // Deactive the active box, if any
+                    m_activeBox = -1;
+            }
             if(event.mouseButton.y < GUI_HEIGHT_OFFSET) { // Above grid
                 for(size_t iii = 0; iii < m_elements.size(); iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
@@ -83,6 +99,9 @@ void Runner::HandleEvents() {
                             m_startedTemplate = false;
                             m_finishedTemplate = false;
                             m_drawingLine = false;
+                        } else if(iii == 12 || iii == 14) { // One of the text boxes
+                            m_activeBox = iii;
+                            m_elements[m_activeBox]->SetActive(true);
                         }
                     }
                 }
@@ -104,13 +123,18 @@ void Runner::HandleEvents() {
             break;
         case sf::Event::KeyPressed:
             if(sf::Keyboard::Num1 <= event.key.code &&
-               event.key.code <= sf::Keyboard::Num6) {
+               event.key.code <= sf::Keyboard::Num6 &&
+               m_activeBox >= m_elements.size()) {
                  UpdateLineType(event.key.code - sf::Keyboard::Num1+1);
             }
             else if(event.key.code == sf::Keyboard::Delete ||
                     event.key.code == sf::Keyboard::BackSpace) {
                 m_base.RemoveSelected();
             }
+            break;
+        case sf::Event::TextEntered:
+            if(m_activeBox < m_elements.size())
+                m_elements[m_activeBox]->OnTextEntered(event.text.unicode);
             break;
         case sf::Event::MouseButtonReleased:
             if(event.mouseButton.button == sf::Mouse::Button::Left)
@@ -127,6 +151,8 @@ void Runner::Draw() {
     std::vector<GUI_Element*>::iterator it;
     for(it = m_elements.begin(); it != m_elements.end(); it++)
         (*it)->Draw();
+    m_success.Draw();
+
     m_grid.Draw();
 
     if(m_drawingLine)

@@ -6,15 +6,16 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),
     m_font(font),
     m_iterator(),
-    m_input(&window, &font, 110, 30, 300, 15, "File"),
+    m_input(&window, &font, 110, 30, 300, 15, "File:"),
     m_saved(&window, &font, 460, 30, 200, 15, ""),
     m_elements(0),
     m_currentLevel(0)
 {
-    m_saved.SetOutlineColor(sf::Color::White);
     if(!m_window.isOpen()) {
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
+        m_input = InputBox(&window, &font, 110, 30, 300, 15, "File:");
+        m_saved = InputBox(&window, &font, 460, 30, 200, 15, "");
     }
     //TODO: Make relative to window & each other
     m_elements.push_back(new Button(&window, &font, 5, 5, 100, 15, "Level 0"));
@@ -29,6 +30,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Level 9"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Infinity"));
     m_elements.push_back(new Button(&window, &font, 5, 30, 100, 15, "Save"));
+    m_saved.SetOutlineColor(sf::Color::White);
     m_window.close();
 }
 
@@ -50,6 +52,7 @@ void Iter_Window::HandleEvents() {
             m_window.close();
             break;
         case sf::Event::MouseButtonPressed:
+            m_input.SetActive(false); // Deactivate m_input if we click anywhere else
             if(event.mouseButton.button == sf::Mouse::Button::Left) {
                 for(size_t iii = 0; iii <= ITERATOR_LEVELS + 1; iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {
@@ -77,24 +80,26 @@ void Iter_Window::HandleEvents() {
                 }
                 if(m_input.IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                     m_input.OnClick(event.mouseButton.x, event.mouseButton.y);
+                    m_input.SetActive(true);
                 }
             }
             break;
         case sf::Event::KeyPressed:
             if(sf::Keyboard::Num0 < event.key.code &&
-               event.key.code <= sf::Keyboard::Num9) {
-                // formerly this would set level, but that interferes with saving to a file
-                // UpdateLevel(event.key.code - sf::Keyboard::Num0);
+               event.key.code <= sf::Keyboard::Num9 &&
+               !m_input.GetActive()) {
+                UpdateLevel(event.key.code - sf::Keyboard::Num0);
             } else if(event.key.code == sf::Keyboard::Tilde) { // Level 0
                 UpdateLevel(0);
-            } else if(event.key.code == sf::Keyboard::Num0) { // Level 10
-                UpdateLevel(10);
+            } else if(event.key.code == sf::Keyboard::Num0) { // Level Infinity
+                UpdateLevel(ITERATOR_LEVELS+1);
             } else {
                 m_input.OnKeyPressed(event.key.code);
             }
             break;
         case sf::Event::TextEntered:
-            m_input.OnTextEntered(event.text.unicode);
+            if(m_input.GetActive())
+                m_input.OnTextEntered(event.text.unicode);
             break;
         default:
             break;

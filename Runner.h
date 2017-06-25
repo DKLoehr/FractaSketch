@@ -1,7 +1,6 @@
 #ifndef RUNNER_H
 #define RUNNER_H
 
-#include "gui/button.h"
 #include "grid.h"
 #include "Iter_Window.h"
 #include "Fractal_Template.h"
@@ -14,8 +13,10 @@ private:
 
     Fractal_Template m_base;
     Line::line_type m_currentLine;
+    size_t m_activeBox;
 
     std::vector<GUI_Element*> m_elements;
+    InputBox m_success; // Reports success/failure of file save/load
 
     // The grid itself
     Grid m_grid;

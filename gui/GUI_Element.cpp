@@ -3,6 +3,7 @@
 GUI_Element::GUI_Element() {}
 
 GUI_Element::GUI_Element(sf::RenderWindow* window, sf::Font* font, double x, double y, double width, double height) :
+    isActive(false),
     m_w(window),
     m_f(font),
     m_position(x, y),

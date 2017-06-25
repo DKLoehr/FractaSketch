@@ -43,11 +43,11 @@ bool InputBox::IsValid(char n) {
 
 void InputBox::SetActive(bool active) {
     isActive = active;
-    if(isActive) {
+    /*if(isActive) {
         m_rectangle.setFillColor(sf::Color::White);
     } else {
         m_rectangle.setFillColor(sf::Color(150, 150, 150));
-    }
+    }*/
 }
 
 void InputBox::SetPosition(sf::Vector2f newPos) {
