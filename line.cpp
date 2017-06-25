@@ -200,6 +200,7 @@ Line Line::ApplyTransform(Transform t) const {
     newFinish += t.origin + t.translate;
 
     Line::line_type newType = m_type;
+
     if(newType == lt_base)
         newType = lt_topLeft;
     // Reflections, if necessary
@@ -212,9 +213,9 @@ Line Line::ApplyTransform(Transform t) const {
         newFinish = (float)(2*(P.x*axis.x + P.y*axis.y)/axisSquared) * axis - P + t.reflect_start;
         if(newType == lt_topRight || newType == lt_topLeft)
             newType = (Line::line_type)(newType + 1);
-        else
+        else if(newType == lt_botRight || newType == lt_botLeft)
             newType = (Line::line_type)(newType - 1);
     }
 
-    return Line(newType, newStart, newFinish);
+    return Line(m_type, newStart, newFinish);
 }

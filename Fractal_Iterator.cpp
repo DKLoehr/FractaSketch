@@ -20,12 +20,14 @@ void Fractal_Iterator::SetBase(Fractal_Template newBase) {
     m_base = newBase;
 
     Fractal_Element element(&m_statics);
-    for(auto line_it = m_base.GetLines().begin(); line_it != m_base.GetLines().end(); line_it++) {
-        Line line = *line_it;
-        line.SetColor(sf::Color::Black);
-        element.AddLine(line);
-    }
-    element.SetBase(m_base.GetBase().GetStart(), m_base.GetBase().GetFinish());
+
+    Line newBaseline = m_base.GetBase();
+    newBaseline.SetColor(sf::Color::Black);
+    newBaseline.SetType(Line::line_type::lt_topRight);
+
+    element.AddLine(newBaseline);
+    element.SetBase(newBaseline.GetStart(), newBaseline.GetFinish());
+
     m_levels.push_back(element);
     SetLevel(0);
 }

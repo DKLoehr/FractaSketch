@@ -31,10 +31,15 @@ void Fractal_Element::AddLine(Line newLine) {
         m_statics_end++;
         break;
     default:
-        m_lines.push_back(newLine);
-        double newLen = newLine.Length();
-        if(newLen > m_maxLength)
-            m_maxLength = newLen;
+        if(newLine.Length() < INFINITY_STOP_SIZE) {
+            newLine.SetType(Line::lt_static);
+            AddLine(newLine);
+        } else {
+            double newLen = newLine.Length();
+            m_lines.push_back(newLine);
+            if(newLen > m_maxLength)
+                m_maxLength = newLen;
+        }
         break;
     }
 }
@@ -49,10 +54,7 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Template& target) cons
         Fractal_Template transformed = target.TransformAll(target.MatchBase(*line_it));
         std::vector<Line> transLines = transformed.GetLines();
         for(auto trans_it = transLines.begin(); trans_it != transLines.end(); trans_it++) {
-            Line transformed_line = *trans_it;
-            if(transformed_line.Length() < INFINITY_STOP_SIZE)
-                transformed_line.SetType(Line::lt_static);
-            newFE.AddLine(transformed_line);
+            newFE.AddLine(*trans_it);
         }
     }
     newFE.SetBase(m_baseline.GetStart(), m_baseline.GetFinish());

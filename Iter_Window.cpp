@@ -1,5 +1,4 @@
 #include "Iter_Window.h"
-#include <iostream> //For debugging
 
 Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),
