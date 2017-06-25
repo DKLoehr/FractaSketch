@@ -33,7 +33,7 @@ sf::Vector2f Line::FromOrigin() const {
 
 void Line::Draw(sf::RenderWindow& window, bool simple) const {
     if(simple) { // Just draw a straight line
-        if(m_type == 0 || m_type == 6) { // A hidden or base line
+        if(m_type == lt_hidden || m_type == lt_base) {
             return; // Don't draw
         }
         sf::Vertex simpleLine[] = {sf::Vertex(m_start, m_color),

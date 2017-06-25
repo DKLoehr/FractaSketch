@@ -27,6 +27,6 @@
 
 // Iterator settings
 #define ITERATOR_LEVELS 9
-#define INFINITY_STOP_SIZE 5
+#define INFINITY_STOP_SIZE 3
 
 #endif // CONSTANTS_H

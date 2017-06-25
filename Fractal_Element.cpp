@@ -3,7 +3,7 @@
 Fractal_Element::Fractal_Element(std::vector<Line>* _statics):
      m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),
      statics(_statics),
-     m_statics_end(_statics->end()),
+     m_statics_end(_statics->size()),
      m_maxLength(0)
 {
 
@@ -28,7 +28,7 @@ void Fractal_Element::AddLine(Line newLine) {
         break;
     case Line::line_type::lt_static:
         statics->push_back(newLine);
-        m_statics_end = statics->end();
+        m_statics_end++;
         break;
     default:
         m_lines.push_back(newLine);
@@ -63,8 +63,10 @@ void Fractal_Element::Draw(sf::RenderWindow& window, bool simple) const {
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
         line_it->Draw(window, simple);
     }
-    for(auto line_it = statics->begin(); line_it != m_statics_end; line_it++) {
+    auto line_it = statics->begin();
+    for(size_t iii = 0; iii < m_statics_end; iii++) {
         line_it->Draw(window, simple);
+        line_it++;
     }
     m_baseline.Draw(window, simple);
 }

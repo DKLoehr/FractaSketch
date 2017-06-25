@@ -12,7 +12,7 @@ private:
     std::vector<Line>* statics;
     // The place in statics to stop drawing lines. Lines past this point
     // were added by a later, more complicated FE.
-    std::vector<Line>::iterator m_statics_end;
+    size_t m_statics_end;
 
     double m_maxLength; // Maximum length of any non-static line in the element
 public:
