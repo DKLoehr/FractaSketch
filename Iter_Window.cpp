@@ -87,7 +87,7 @@ void Iter_Window::Draw() {
     m_window.display();
 }
 
-void Iter_Window::StartNewIteration(Fractal_Element base) {
+void Iter_Window::StartNewIteration(Fractal_Template base) {
     if(!m_window.isOpen()) {
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));

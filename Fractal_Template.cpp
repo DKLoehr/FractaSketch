@@ -19,6 +19,10 @@ const std::vector<Line>& Fractal_Template::GetLines() const {
     return m_lines;
 }
 
+const Line& Fractal_Template::GetBase() const {
+    return m_baseline;
+}
+
 void Fractal_Template::OnClick(sf::Vector2f clickPos) {
     size_t oldLine = m_activeLine;
     SelectNear(clickPos);
@@ -189,15 +193,19 @@ void Fractal_Template::Clear() {
     SetBase(sf::Vector2f(0,0), sf::Vector2f(0,0));
 }
 
-Fractal_Element Fractal_Template::ToElement() const {
-    Fractal_Element element;
+Transform Fractal_Template::MatchBase(const Line& base) const {
+    return m_baseline.Match(base);
+}
+
+Fractal_Template Fractal_Template::TransformAll(Transform t) const {
+    Fractal_Template newFT;
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        Line line = *line_it;
-        line.SetColor(sf::Color::Black);
-        element.AddLine(line);
+        Line transformed = line_it->ApplyTransform(t);
+        if(line_it == m_lines.begin())
+            newFT.StartAtPoint(transformed.GetStart());
+        newFT.AddLine(transformed.GetFinish(), transformed.GetType());
     }
-    element.SetBase(m_baseline.GetStart(), m_baseline.GetFinish());
-    return element;
+    return newFT;
 }
 
 void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
@@ -205,7 +213,7 @@ void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
         line_it->Draw(window, simple);
     }
     sf::CircleShape point(TEMPLATE_DOT_RAD);
-    point.setFillColor(sf::Color::Black); // TODO: Take into account the active point
+    point.setFillColor(sf::Color::Black);
     point.setOrigin(TEMPLATE_DOT_RAD, TEMPLATE_DOT_RAD); // Position relative to center instead of top-left corner
     for(size_t iii = 0; iii < m_points.size(); iii++) {
         if(iii == m_activePoint)

@@ -77,7 +77,7 @@ void Runner::HandleEvents() {
                         else if(iii < 9) { // Grid
                             m_grid.SetType((Grid::grid_type)(iii-6));
                         } else if(iii == 9) { // Draw
-                            m_iter_window.StartNewIteration(m_base.ToElement());
+                            m_iter_window.StartNewIteration(m_base);
                         } else if(iii == 10) { // Clear
                             m_base.Clear();
                             m_startedTemplate = false;

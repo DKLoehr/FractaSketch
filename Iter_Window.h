@@ -21,7 +21,7 @@ public:
     void HandleEvents();
     void Draw();
 
-    void StartNewIteration(Fractal_Element base);
+    void StartNewIteration(Fractal_Template base);
     void UpdateLevel(size_t newLevel);
 };
 

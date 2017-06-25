@@ -1,7 +1,9 @@
 #ifndef FRACTAL_TEMPLATE_H
 #define FRACTAL_TEMPLATE_H
 
-#include "Fractal_Element.h"
+#include <vector>
+#include "Line.h"
+
 
 class Fractal_Template {
 private:
@@ -28,6 +30,7 @@ public:
     ~Fractal_Template();
 
     const std::vector<Line>& GetLines() const;
+    const Line& GetBase() const;
 
     void OnClick(sf::Vector2f clickPos);
 
@@ -39,7 +42,8 @@ public:
     void MovePoint(sf::Vector2f newPos);
     void Clear();
 
-    Fractal_Element ToElement() const; // Convert the template into the equivalent Fractal_Element
+    Transform MatchBase(const Line& base) const;
+    Fractal_Template TransformAll(Transform t) const;
 
     void Draw(sf::RenderWindow& window, bool simple) const;
     void DrawBaseline();
