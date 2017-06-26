@@ -37,6 +37,10 @@ To erase the template completely, click the Clear button. Note that once you hav
 
 If weird stuff is happening and you can't edit your template, hit Clear.
 
+If you've got a template you particularly like, you can save it to a file and load it again later! To save a template, simply click on the box next to the "Save" button, and type in the filename you wish to use, then click Save. If the filename does not end in ".fs", then the extension ".fs" will be appended to it. 
+
+To load a file later, type the filename of the file you wish to load (including the .fs extension), and hit the Load button. This will overwrite your existing template, if any.
+
 ### Drawing the Fractal
 To create a fractal from your template, hit the Draw button. This will create a new window on top of the previous one with your template on it. 
 
@@ -52,6 +56,7 @@ To exit the program, close the main window. Feel free to close the iteration win
 ## Changelog:
 
 ##### v0.2.4:
+* Add ability to save/load templates
 * Add ability to save iteration results to a file
 
 ###### v0.2.3:
