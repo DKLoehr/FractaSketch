@@ -248,10 +248,11 @@ bool Fractal_Template::SaveToFile(std::string filename) {
         return true;
     }
 
-    outFile << m_points[0].x << " " << m_points[0].y;
+    outFile << m_points[0].x << " " << m_points[0].y << "\n";
     for(size_t iii = 0; iii < m_lines.size(); iii++) {
-        outFile << (int)(m_lines[iii].GetType());
-        outFile << m_points[iii+1].x << " " << m_points[iii+1].y;
+        outFile << (int)(m_lines[iii].GetType()) << " "
+                << m_points[iii+1].x << " "
+                << m_points[iii+1].y << "\n";
     }
 
     outFile.close();
@@ -282,7 +283,7 @@ bool Fractal_Template::LoadFromFile(std::string filename) {
         AddLine(sf::Vector2f(x,y), (Line::line_type)line_type);
     }
 
-    if (inFile.fail() || inFile.bad()) {
+    if (!inFile.eof()) {
         inFile.close();
         return false; // Bad input
     }

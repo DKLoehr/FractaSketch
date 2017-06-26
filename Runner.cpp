@@ -99,6 +99,18 @@ void Runner::HandleEvents() {
                             m_startedTemplate = false;
                             m_finishedTemplate = false;
                             m_drawingLine = false;
+                        } else if(iii == 11) {
+                            if(m_base.LoadFromFile(m_elements[12]->GetText())) {
+                                m_success.SetText("Load Successful!");
+                            } else {
+                                m_success.SetText("Load Failed :(");
+                            }
+                        } else if(iii == 13) {
+                            if(m_base.SaveToFile(m_elements[14]->GetText())) {
+                                m_success.SetText("Save Successful!");
+                            } else {
+                                m_success.SetText("Save Failed :(");
+                            }
                         } else if(iii == 12 || iii == 14) { // One of the text boxes
                             m_activeBox = iii;
                             m_elements[m_activeBox]->SetActive(true);
