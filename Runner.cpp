@@ -10,7 +10,7 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     m_base(),
     m_currentLine(Line::lt_topRight),
     m_elements(0),
-    m_success(&window, &font, 930, 30, 100, 15, ""),
+    m_success(&window, &font, 930, 30, 300, 15, ""),
     m_grid(window, sf::Vector2f(0, GUI_HEIGHT_OFFSET), sf::Vector2f(m_window.getSize()), Grid::gt_square),
     m_startedTemplate(false),
     m_finishedTemplate(false),
@@ -102,8 +102,15 @@ void Runner::HandleEvents() {
                         } else if(iii == 11) {
                             if(m_base.LoadFromFile(m_elements[12]->GetText())) {
                                 m_success.SetText("Load Successful!");
+                                m_startedTemplate = true;
+                                m_finishedTemplate = true;
+                                m_drawingLine = false;
                             } else {
                                 m_success.SetText("Load Failed :(");
+                                m_base.Clear();
+                                m_startedTemplate = false;
+                                m_finishedTemplate = false;
+                                m_drawingLine = false;
                             }
                         } else if(iii == 13) {
                             if(m_base.SaveToFile(m_elements[14]->GetText())) {

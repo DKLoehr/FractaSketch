@@ -239,6 +239,8 @@ void Fractal_Template::SetBase(sf::Vector2f start, sf::Vector2f finish) {
 
 bool Fractal_Template::SaveToFile(std::string filename) {
     std::ofstream outFile;
+    if(filename.length() >= 3 && filename.substr(filename.length()-3) != ".fs")
+        filename += ".fs";
     outFile.open(filename);
     if(!outFile.is_open())
         return false;

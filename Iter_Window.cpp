@@ -7,7 +7,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_font(font),
     m_iterator(),
     m_input(&window, &font, 110, 30, 300, 15, "File:"),
-    m_saved(&window, &font, 460, 30, 200, 15, ""),
+    m_success(&window, &font, 460, 30, 200, 15, ""),
     m_elements(0),
     m_currentLevel(0)
 {
@@ -15,7 +15,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
         m_input = InputBox(&window, &font, 110, 30, 300, 15, "File:");
-        m_saved = InputBox(&window, &font, 460, 30, 200, 15, "");
+        m_success = InputBox(&window, &font, 460, 30, 200, 15, "");
     }
     //TODO: Make relative to window & each other
     m_elements.push_back(new Button(&window, &font, 5, 5, 100, 15, "Level 0"));
@@ -30,7 +30,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_elements.push_back(new Button(&window, &font, 950, 5, 100, 15, "Level 9"));
     m_elements.push_back(new Button(&window, &font, 1055, 5, 100, 15, "Infinity"));
     m_elements.push_back(new Button(&window, &font, 5, 30, 100, 15, "Save"));
-    m_saved.SetOutlineColor(sf::Color::White);
+    m_success.SetOutlineColor(sf::Color::White);
     m_window.close();
 }
 
@@ -74,9 +74,9 @@ void Iter_Window::HandleEvents() {
                     sf::Image img = tex.getTexture().copyToImage();
                     std::string filename = m_input.GetText();
                     if (img.saveToFile(filename))
-                        m_saved.SetText("Image saved!");
+                        m_success.SetText("Image saved!");
                     else
-                        m_saved.SetText("Save failed :(");
+                        m_success.SetText("Save failed :(");
                 }
                 if(m_input.IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                     m_input.OnClick(event.mouseButton.x, event.mouseButton.y);
@@ -116,7 +116,7 @@ void Iter_Window::Draw() {
         (*it)->Draw();
     }
     m_input.Draw();
-    m_saved.Draw();
+    m_success.Draw();
 
     m_iterator.Draw(m_window);
 
@@ -128,6 +128,7 @@ void Iter_Window::StartNewIteration(Fractal_Template base) {
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
     }
+    m_success.SetText("");
     m_elements[m_currentLevel]->SetActive(false);
     m_currentLevel = 0;
     m_elements[m_currentLevel]->SetActive(true);

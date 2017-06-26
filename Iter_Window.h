@@ -12,7 +12,7 @@ private:
 
     Fractal_Iterator m_iterator;
     InputBox m_input;
-    InputBox m_saved;
+    InputBox m_success;
     std::vector<GUI_Element*> m_elements;
 
     size_t m_currentLevel;
