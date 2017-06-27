@@ -54,6 +54,7 @@ void Iter_Window::HandleEvents() {
             break;
         case sf::Event::MouseButtonPressed:
             m_input.SetActive(false); // Deactivate m_input if we click anywhere else
+            m_success.SetText("");
             if(event.mouseButton.button == sf::Mouse::Button::Left) {
                 for(size_t iii = 0; iii <= ITERATOR_LEVELS + 1; iii++) {
                     if(m_elements[iii]->IsClicked(event.mouseButton.x, event.mouseButton.y)) {

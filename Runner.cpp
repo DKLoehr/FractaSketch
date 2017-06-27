@@ -79,6 +79,8 @@ void Runner::HandleEvents() {
                 }
                 break;
             }
+
+            m_success.SetText("");
             if(m_activeBox < m_elements.size()) {
                     m_elements[m_activeBox]->SetActive(false); // Deactive the active box, if any
                     m_activeBox = -1;
