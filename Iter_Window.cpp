@@ -114,13 +114,13 @@ void Iter_Window::Draw() {
         return;
     m_window.clear(sf::Color::White);
 
+    m_success.Draw();
+    m_iterator.Draw(m_window);
+
     for(auto it = m_elements.begin(); it != m_elements.end(); it++) {
         (*it)->Draw();
     }
     m_input.Draw();
-    m_success.Draw();
-
-    m_iterator.Draw(m_window);
 
     m_window.display();
 }
