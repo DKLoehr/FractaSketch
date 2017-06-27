@@ -149,6 +149,8 @@ void Runner::HandleEvents() {
             else if(event.key.code == sf::Keyboard::Delete ||
                     event.key.code == sf::Keyboard::BackSpace) {
                 m_base.RemoveSelected();
+            } else if(m_activeBox < m_elements.size()) {
+                m_elements[m_activeBox]->OnKeyPressed(event.key.code);
             }
             break;
         case sf::Event::TextEntered:
