@@ -1,7 +1,7 @@
 #include "Fractal_Template.h"
 #include "constants.h"
 #include <fstream>
-#include <string>
+#include "utils.h"
 
 Fractal_Template::Fractal_Template():
     m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),
@@ -239,8 +239,14 @@ void Fractal_Template::SetBase(sf::Vector2f start, sf::Vector2f finish) {
 
 bool Fractal_Template::SaveToFile(std::string filename) {
     std::ofstream outFile;
+    
+    filename = GetProperPath(filename);
+    if(filename.length() == 0)
+        return false;
+    
     if(filename.length() >= 3 && filename.substr(filename.length()-3) != ".fs")
         filename += ".fs";
+    
     outFile.open(filename);
     if(!outFile.is_open())
         return false;
@@ -263,6 +269,7 @@ bool Fractal_Template::SaveToFile(std::string filename) {
 
 bool Fractal_Template::LoadFromFile(std::string filename) {
     std::ifstream inFile;
+    filename = GetProperPath(filename);
     inFile.open(filename);
     if(!inFile.is_open())
         return false;

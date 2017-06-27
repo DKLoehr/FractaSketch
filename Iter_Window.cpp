@@ -1,6 +1,7 @@
 #include "Iter_Window.h"
 #include "gui/Button.h"
 #include "gui/text.h"
+#include "utils.h"
 
 Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),
@@ -72,7 +73,7 @@ void Iter_Window::HandleEvents() {
                     tex.display();
 
                     sf::Image img = tex.getTexture().copyToImage();
-                    std::string filename = m_input.GetText();
+                    std::string filename = GetProperPath(m_input.GetText());
                     if (img.saveToFile(filename))
                         m_success.SetText("Image saved!");
                     else
