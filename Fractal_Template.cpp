@@ -244,7 +244,7 @@ bool Fractal_Template::SaveToFile(std::string filename) {
     if(filename.length() == 0)
         return false;
 
-    if(filename.length() >= 4 && filename.substr(filename.length()-4) != ".fsk")
+    if(filename.length() < 4 || filename.substr(filename.length()-4) != ".fsk")
         filename += ".fsk";
 
     outFile.open(filename);

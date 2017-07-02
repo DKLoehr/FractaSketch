@@ -75,19 +75,8 @@ void Iter_Window::HandleEvents() {
 
                     sf::Image img = tex.getTexture().copyToImage();
                     std::string filename = GetProperPath(m_input.GetText());
-                    bool bad_extension = false;
-                    if(filename.length() <= 4) {
-                        bad_extension = true;
-                    } else {
-                        std::string ext = filename.substr(filename.length() - 4, 4);
-                        if (ext != ".bmp" && ext != ".jpg" && ext != ".tga" && ext != ".png") {
-                            bad_extension = true;
-                        }
-                    }
-                    if(bad_extension) {
-                        m_success.SetText("Invalid extension. Use png, jpg, bmp or tga.");
-                        break;
-                    }
+                    if(filename.length() < 4 || filename.substr(filename.length()-4) != ".png")
+                        filename += ".png";
                     if (img.saveToFile(filename))
                         m_success.SetText("Image saved!");
                     else
