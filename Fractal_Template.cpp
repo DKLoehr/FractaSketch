@@ -239,14 +239,14 @@ void Fractal_Template::SetBase(sf::Vector2f start, sf::Vector2f finish) {
 
 bool Fractal_Template::SaveToFile(std::string filename) {
     std::ofstream outFile;
-    
+
     filename = GetProperPath(filename);
     if(filename.length() == 0)
         return false;
-    
-    if(filename.length() >= 3 && filename.substr(filename.length()-3) != ".fs")
-        filename += ".fs";
-    
+
+    if(filename.length() >= 4 && filename.substr(filename.length()-4) != ".fsk")
+        filename += ".fsk";
+
     outFile.open(filename);
     if(!outFile.is_open())
         return false;

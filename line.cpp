@@ -217,5 +217,5 @@ Line Line::ApplyTransform(Transform t) const {
             newType = (Line::line_type)(newType - 1);
     }
 
-    return Line(m_type, newStart, newFinish);
+    return Line(newType, newStart, newFinish);
 }

@@ -37,7 +37,7 @@ To erase the template completely, click the Clear button. Note that once you hav
 
 If weird stuff is happening and you can't edit your template, hit Clear.
 
-If you've got a template you particularly like, you can save it to a file and load it again later! To save a template, simply click on the box next to the "Save" button, and type in the filename you wish to use, then click Save. If the filename does not end in ".fs", then the extension ".fs" will be appended to it. 
+If you've got a template you particularly like, you can save it to a file and load it again later! To save a template, simply click on the box next to the "Save" button, and type in the filename you wish to use, then click Save. If the filename does not end in ".fsk", then the extension ".fsk" will be appended to it. 
 
 To load a file later, type the filename of the file you wish to load (including the .fs extension), and hit the Load button. This will overwrite your existing template, if any.
 

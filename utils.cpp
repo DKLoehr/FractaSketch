@@ -15,13 +15,13 @@ std::string GetProperPath(std::string filename) {
         return "";
     }
     CFRelease(resourcesURL);
-    
+
     std::string cwd(path);
     cwd = cwd.substr(0, cwd.find_last_of('/'));
     cwd = cwd.substr(0, cwd.find_last_of('/'));
     cwd = cwd.substr(0, cwd.find_last_of('/'));
     filename = cwd + "/" + filename;
-    
+
 #endif
     return filename;
 }

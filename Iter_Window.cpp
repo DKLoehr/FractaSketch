@@ -8,7 +8,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_font(font),
     m_iterator(),
     m_input(&window, &font, 110, 30, 300, 15, "File:"),
-    m_success(&window, &font, 460, 30, 200, 15, ""),
+    m_success(&window, &font, 460, 30, 1000, 15, ""),
     m_elements(0),
     m_currentLevel(0)
 {
@@ -16,7 +16,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
         m_input = InputBox(&window, &font, 110, 30, 300, 15, "File:");
-        m_success = InputBox(&window, &font, 460, 30, 200, 15, "");
+        m_success = InputBox(&window, &font, 460, 30, 1000, 15, "");
     }
     //TODO: Make relative to window & each other
     m_elements.push_back(new Button(&window, &font, 5, 5, 100, 15, "Level 0"));
@@ -75,6 +75,19 @@ void Iter_Window::HandleEvents() {
 
                     sf::Image img = tex.getTexture().copyToImage();
                     std::string filename = GetProperPath(m_input.GetText());
+                    bool bad_extension = false;
+                    if(filename.length() <= 4) {
+                        bad_extension = true;
+                    } else {
+                        std::string ext = filename.substr(filename.length() - 4, 4);
+                        if (ext != ".bmp" && ext != ".jpg" && ext != ".tga" && ext != ".png") {
+                            bad_extension = true;
+                        }
+                    }
+                    if(bad_extension) {
+                        m_success.SetText("Invalid extension. Use png, jpg, bmp or tga.");
+                        break;
+                    }
                     if (img.saveToFile(filename))
                         m_success.SetText("Image saved!");
                     else
