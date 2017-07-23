@@ -6,12 +6,16 @@ The source code was written in C++ and uses the SFML Library. The source code is
 
 =========================
 ## Installation Instructions:
-Extract the .zip file to whatever directory you wish to keep it in. 
-For Windows, ensure that the file VeraMono.ttf is in the same directory as the executable.
-To run, double-click the .exe file (Windows) or the app (Macs)
+Extract the .zip file to whatever directory you wish to keep it in. That's it!
 
 ==================
 ## Usage Instructions:
+
+### Running the program:
+To run, double-click the .exe file (Windows) or the app (Macs).
+If the application fails to load, look for a FractaSketch_log.txt file in the same directory as the executable. Examine the contents of the file for more information. If the file does not exist, then the program never got a chance to start at all; this likely means that your operating system is preventing it from running.
+
+The most common cause of failed starts is a missing font file; if so, the log will contain a message to this effect. If you are on Windows, ensure that the VeraMono.ttf file which came with the program is in the same directory as the executable (this file is not needed on Macs).
 
 ### User Interface:
 Along the top of the screen there are several buttons. The first 6 refer to line types, and the next three to grid types.
@@ -63,6 +67,7 @@ right-hand side of the equals sign.
 
 ##### v0.2.5:
 * Add config file
+* Add log file
 
 ##### v0.2.4:
 * Add ability to save/load templates
