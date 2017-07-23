@@ -53,7 +53,16 @@ You can save the results of your iteration to a file by specifying the file name
 To exit the program, close the main window. Feel free to close the iteration window when you're done with it; it won't stop the program and will come back next time you draw.
 
 =============
+## Configuring FractaSketch
+
+Some of FractaSketch's parameters can be configured by the user. To edit them, open the "FractaSketch_config.cfg" file in the same directory as the FractaSketch executable. To modify a value, simply change the number on the
+right-hand side of the equals sign.
+
+=============
 ## Changelog:
+
+##### v0.2.5:
+* Add config file
 
 ##### v0.2.4:
 * Add ability to save/load templates
