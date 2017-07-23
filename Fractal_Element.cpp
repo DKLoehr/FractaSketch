@@ -32,7 +32,7 @@ void Fractal_Element::AddLine(Line newLine) {
         m_statics_end++;
         break;
     default:
-        if(newLine.Length() < INFINITY_STOP_SIZE) {
+        if(newLine.Length() < config::infinity_stop_size) {
             newLine.SetType(Line::lt_static);
             AddLine(newLine);
         } else {

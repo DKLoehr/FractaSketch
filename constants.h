@@ -26,4 +26,7 @@
 // Iterator settings
 #define ITERATOR_LEVELS 9
 
+// Configuration settings
+#define CONFIG_FILE "FractaSketch_config.cfg"
+
 #endif // CONSTANTS_H

@@ -4,6 +4,7 @@
 
 #include "Fractal_Iterator.h"
 #include "Runner.h"
+#include "config.h"
 
 int main() {
     sf::Font inFont;
@@ -14,6 +15,8 @@ int main() {
     if(!inFont.loadFromFile("VeraMono.ttf"))
         return -1;
     #endif
+
+    config::load_config();
 
     sf::RenderWindow window(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
     window.setPosition(sf::Vector2i(0, 0));

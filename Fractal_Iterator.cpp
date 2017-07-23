@@ -60,7 +60,7 @@ void Fractal_Iterator::IterateToInfinity() {
 
     IterateTo(ITERATOR_LEVELS);
     Fractal_Element nextFe = m_levels[ITERATOR_LEVELS];
-    while (nextFe.GetMaxLength() > INFINITY_STOP_SIZE) {
+    while (nextFe.GetMaxLength() > config::infinity_stop_size) {
         nextFe = nextFe.ReplaceAll(m_base);
     }
     m_levels.push_back(nextFe);

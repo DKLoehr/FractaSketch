@@ -30,34 +30,34 @@ void Grid::FillGrids() {
     point.setFillColor(sf::Color::Black);
     point.setOrigin(GRID_DOT_RAD, GRID_DOT_RAD); // Position relative to center instead of top-left corner
     // Initialize the square grid
-    double rows = m_size.y / GRID_SQUARE_SCALE,
-           cols = m_size.x / GRID_SQUARE_SCALE;
+    double rows = m_size.y / config::grid_square_scale,
+           cols = m_size.x / config::grid_square_scale;
     for(int iii = 0; iii < rows; iii++) {
         for(int jjj = 0; jjj < cols; jjj++) {
-            point.setPosition(m_position + sf::Vector2f(jjj*GRID_SQUARE_SCALE, iii*GRID_SQUARE_SCALE));
+            point.setPosition(m_position + sf::Vector2f(jjj*config::grid_square_scale, iii*config::grid_square_scale));
             m_grids[gt_square].push_back(point);
         }
     }
 
     // Initialize the hex grid
-    double dy = sqrt(3)/2*GRID_HEX_SCALE;
+    double dy = sqrt(3)/2*config::grid_hex_scale;
     rows = m_size.y / dy;
-    cols = m_size.x / 3 / GRID_HEX_SCALE;
+    cols = m_size.x / 3 / config::grid_hex_scale;
     for(int iii = 0; iii < rows; iii++) {
         for(double jjj = 0; jjj < cols; jjj++) {
             if(iii % 2 == 0) {
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 0)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 0)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 1)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 1)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 2)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
             } else {
-                point.setPosition(m_position + sf::Vector2f((3*jjj + .5)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + .5)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 1.5)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 1.5)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
-                point.setPosition(m_position + sf::Vector2f((3*jjj + 2.5)* GRID_HEX_SCALE, iii * dy));
+                point.setPosition(m_position + sf::Vector2f((3*jjj + 2.5)* config::grid_hex_scale, iii * dy));
                 m_grids[gt_hex].push_back(point);
             }
         }
@@ -80,8 +80,8 @@ sf::Vector2f Grid::SnapToNearest(sf::Vector2f point) {
         if(point.x > (m_position+m_size).x) point.x = (m_position+m_size).x;
         if(point.y < m_position.y) point.y = m_position.y;
         if(point.y > (m_position+m_size).y) point.y = (m_position+m_size).y;
-        point.x = ((int)((point.x - m_position.x)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.x;
-        point.y = ((int)((point.y - m_position.y)/GRID_SQUARE_SCALE + .5))*GRID_SQUARE_SCALE + m_position.y;
+        point.x = ((int)((point.x - m_position.x)/config::grid_square_scale + .5))*config::grid_square_scale + m_position.x;
+        point.y = ((int)((point.y - m_position.y)/config::grid_square_scale + .5))*config::grid_square_scale + m_position.y;
         return point;
     } else { // Hex grid
         // We literally just iterate through every point and find the minimum distance to any of them
