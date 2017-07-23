@@ -39,3 +39,6 @@ bin/*
 # XCode (Mac) Stuff
 .FractaSketchMac/
 /FractaSketchMac/*
+
+FractaSketch_log.txt
+*.bak
