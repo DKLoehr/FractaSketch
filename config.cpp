@@ -1,9 +1,10 @@
 #include "config.h"
-#include "constants.h"
-#include "utils.h"
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include "constants.h"
+#include "utils.h"
+#include "logging.h"
 
 namespace config {
     float grid_square_scale = 40.0; // Distance between points
@@ -11,7 +12,7 @@ namespace config {
 
     float infinity_stop_size = 3;
 }
-#include <iostream> //TODO: REMOVE
+
 bool config::load_config() {
     std::ifstream inFile;
     std::string filename = GetProperPath(CONFIG_FILE);
@@ -25,6 +26,7 @@ bool config::load_config() {
 
     while (std::getline(inFile, line))
     {
+        std::string original = line;
         // Empty line or comment
         if (line.length() == 0 || line[0] == '#')
             continue;
@@ -35,6 +37,7 @@ bool config::load_config() {
 
         // No equals in line
         if(eqloc >= line.length()) {
+            logging::AddToLog("Config Error: No equals sign in line: " + original);
             retval = false;
             continue;
         }
@@ -46,6 +49,7 @@ bool config::load_config() {
 
         // Invalid value
         if(!(iss >> value)) {
+            logging::AddToLog("Config Error: Value '" + value_str + "' is not a float in line: " + original);
             retval = false;
             continue;
         }
@@ -57,6 +61,7 @@ bool config::load_config() {
         else if(param == "infinity_stop_size")
             infinity_stop_size = value;
         else
+            logging::AddToLog("Config Error: Unrecognized parameter " + param + " in line: " + original);
             retval = false; // Invalid parameter
     }
     return retval;
