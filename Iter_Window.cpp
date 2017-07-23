@@ -2,6 +2,7 @@
 #include "gui/Button.h"
 #include "gui/text.h"
 #include "utils.h"
+#include "constants.h"
 
 Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),

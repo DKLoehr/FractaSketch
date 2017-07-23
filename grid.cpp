@@ -1,5 +1,6 @@
 #include "Grid.h"
 #include <queue>
+#include "config.h"
 
 Grid::Grid(sf::RenderWindow& window, sf::Vector2f topLeft, sf::Vector2f botRight, grid_type type = gt_none):
     m_window(window),

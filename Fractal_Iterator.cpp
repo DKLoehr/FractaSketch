@@ -1,4 +1,6 @@
 #include "Fractal_Iterator.h"
+#include "config.h"
+#include "constants.h"
 
 Fractal_Iterator::Fractal_Iterator()
 {

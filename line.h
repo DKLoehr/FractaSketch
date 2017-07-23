@@ -2,7 +2,6 @@
 #define LINE_H
 
 #include <SFML/Graphics.hpp>
-#include "constants.h"
 
 struct Transform {
     double scale;

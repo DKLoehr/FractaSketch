@@ -1,4 +1,5 @@
 #include "Fractal_Element.h"
+#include "config.h"
 
 Fractal_Element::Fractal_Element(std::vector<Line>* _statics):
      m_baseline(Line::lt_base, sf::Vector2f(0,0), sf::Vector2f(0,0)),

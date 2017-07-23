@@ -1,4 +1,5 @@
 #include "line.h"
+#include "constants.h"
 
 Line::Line(line_type type, sf::Vector2f start, sf::Vector2f finish):
     m_type(type),
