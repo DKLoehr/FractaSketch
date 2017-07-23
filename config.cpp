@@ -60,9 +60,10 @@ bool config::load_config() {
             grid_hex_scale = value;
         else if(param == "infinity_stop_size")
             infinity_stop_size = value;
-        else
+        else {
             logging::AddToLog("Config Error: Unrecognized parameter " + param + " in line: " + original);
             retval = false; // Invalid parameter
+        }
     }
     return retval;
 }

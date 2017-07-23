@@ -133,6 +133,7 @@ void Iter_Window::StartNewIteration(Fractal_Template base) {
         m_window.create(sf::VideoMode(1200, 724), "FractaSketch", sf::Style::Titlebar | sf::Style::Close);
         m_window.setPosition(sf::Vector2i(0, 0));
     }
+    m_window.requestFocus();
     m_success.SetText("");
     m_elements[m_currentLevel]->SetActive(false);
     m_currentLevel = 0;
