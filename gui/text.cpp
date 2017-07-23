@@ -66,14 +66,13 @@ bool InputBox::OnEnter() {
 }
 
 void InputBox::OnClick(double xP, double yP) {
+    (void)yP;
     SetCursor((int)((xP - m_rectangle.getPosition().x) / 9 + .5)); ///TODO: Add in scaling properly
 }
 
 void InputBox::SetCursor(int newCursorPos) {
     int origPos = m_cursorPos;
     m_cursorPos = newCursorPos;
-    if(m_cursorPos < 0)
-        m_cursorPos = 0;
     if(m_cursorPos > ((std::string)m_text.getString()).length())
         m_cursorPos = ((std::string)m_text.getString()).length();
     if(m_cursorPos * 9 > m_rectangle.getSize().x)
@@ -85,8 +84,7 @@ void InputBox::SetCursor(int newCursorPos) {
     } else {
         m_stringPos = newCursorPos + m_stringPos - origPos;
     }
-    if(m_stringPos < 0)
-        m_stringPos = 0;
+
     if(m_stringPos > ((std::string)m_text.getString()).length())
         m_stringPos = ((std::string)m_text.getString()).length();
     }

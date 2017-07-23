@@ -40,13 +40,17 @@ bool Button::OnEnter() {
 }
 
 void Button::OnClick(double xP, double yP) {
+    (void)xP;
+    (void)yP;
     return;
 }
 
 void Button::OnTextEntered(char n) {
+    (void)n;
     return;
 }
 
 void Button::OnKeyPressed(sf::Keyboard::Key key) {
+    (void)key;
     return;
 }
