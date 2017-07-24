@@ -1,10 +1,12 @@
 #include "logging.h"
+#include "utils.h"
 #include <fstream>
 
 std::ofstream outFile;
 
 void logging::OpenLog() {
-    outFile.open("FractaSketch_log.txt");
+    std::string filename = GetProperPath("FractSketch_log.txt");
+    outFile.open(filename);
 }
 
 void logging::CloseLog() {

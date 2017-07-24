@@ -17,8 +17,10 @@ bool config::load_config() {
     std::ifstream inFile;
     std::string filename = GetProperPath(CONFIG_FILE);
     inFile.open(filename);
-    if(!inFile.is_open())
+    if(!inFile.is_open()) {
+        logging::AddToLog("Config file not found! Using default values.");
         return false;
+    }
 
     std::string line;
 
