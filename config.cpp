@@ -56,12 +56,18 @@ bool config::load_config() {
             continue;
         }
 
-        if(param == "grid_square_scale")
+        if(param == "grid_square_scale") {
+            logging::AddToLog("Setting parameter " + param + " to value " + value_str);
             grid_square_scale = value;
-        else if(param == "grid_hex_scale")
+        }
+        else if(param == "grid_hex_scale") {
+            logging::AddToLog("Setting parameter " + param + " to value " + value_str);
             grid_hex_scale = value;
-        else if(param == "infinity_stop_size")
+        }
+        else if(param == "infinity_stop_size") {
+            logging::AddToLog("Setting parameter " + param + " to value " + value_str);
             infinity_stop_size = value;
+        }
         else {
             logging::AddToLog("Config Error: Unrecognized parameter " + param + " in line: " + original);
             retval = false; // Invalid parameter
