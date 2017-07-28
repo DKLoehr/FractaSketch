@@ -59,8 +59,7 @@ To exit the program, close the main window. Feel free to close the iteration win
 =============
 ## Configuring FractaSketch
 
-Some of FractaSketch's parameters can be configured by the user. To edit them, open the "FractaSketch_config.cfg" file in the same directory as the FractaSketch executable. To modify a value, simply change the number on the
-right-hand side of the equals sign.
+Some of FractaSketch's parameters can be configured by the user. To edit them, open the "FractaSketch_config.txt" file in the same directory as the FractaSketch executable. To modify a value, simply change the number on the right-hand side of the equals sign.
 
 =============
 ## Changelog:

@@ -9,4 +9,4 @@ grid_hex_scale = 35.0
 # Line length at which to stop iterating (float)
 # Decreasing this will result in more detailed fractals, but they will be exponentially harder to 
 # compute and so will take much longer to display (if they don't run out of memory first)
-infinity_stop_size = 3.0
+infinity_stop_size = 1.0
