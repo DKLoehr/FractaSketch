@@ -5,7 +5,7 @@
 std::ofstream outFile;
 
 void logging::OpenLog() {
-    std::string filename = GetProperPath("FractSketch_log.txt");
+    std::string filename = GetProperPath("FractaSketch_log.txt");
     outFile.open(filename);
 }
 
