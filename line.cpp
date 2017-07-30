@@ -43,7 +43,28 @@ void Line::Draw(sf::RenderTarget& target, draw_type style) const {
                                    sf::Vertex(m_finish, m_color)};
         target.draw(simpleLine, 2, sf::Lines);
     } else if (style == dt_overlay) {
-        target.draw(m_body);
+        if(m_type == lt_hidden || m_type == lt_base) {
+            return; // Don't draw
+        }
+        // TODO: If drawing becomes slow, we can cache these for better performance
+        sf::Color color = sf::Color::Magenta;;
+        sf::Vector2f dist = m_finish - m_start;
+        double length = sqrt(dist.x * dist.x + dist.y * dist.y);
+        dist /= (float)length;
+        sf::VertexArray dotted_body;
+        dotted_body.setPrimitiveType(sf::Lines);
+        sf::Vector2f dot = dist * (float)LINE_DOT_SIZE;
+        sf::Vector2f loc = m_start;
+        loc = m_start;
+        int numDots = length / LINE_DOT_SIZE / 2;
+        for(int iii = 0; iii < numDots; iii++) { // Draw the dots along the line
+            dotted_body.append(sf::Vertex(loc, color));
+            dotted_body.append(sf::Vertex(loc + dot, color));
+            loc += dot * (float)2.0;
+        }
+        dotted_body.append(sf::Vertex(loc, color));
+        dotted_body.append(sf::Vertex(m_finish, color));
+        target.draw(dotted_body);
     }
 }
 
