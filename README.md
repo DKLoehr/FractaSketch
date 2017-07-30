@@ -1,14 +1,11 @@
 # FractaSketch
-=============
 This is a remake of an old program, FractaSketch, which was originally created by Peter Van Roy at the Catholic University of Louvain. Its purpose is to generate fractals iteratively from a template.
 
 The source code was written in C++ and uses the SFML Library. The source code is available at https://github.com/DKLoehr/FractaSketch
 
-=========================
 ## Installation Instructions:
 Extract the .zip file to whatever directory you wish to keep it in. That's it!
 
-==================
 ## Usage Instructions:
 
 ### Running the program:
@@ -50,19 +47,21 @@ To create a fractal from your template, hit the Draw button. This will create a 
 
 You can then click the buttons on top (you can't use the number keys here) to go to the corresponding level of iteration. Note that due to its position, the 0 key is mapped to the special level "Infinity", not level 0. The tilde key is mapped to level 0 instead.
 
+If the checkbox "Consecutive levels" is pressed, the previous iteration level will be drawn in dotted lines of a different color on top of the current level. This lets you look at two consecutive levels of iteration at once, which helps to illustrate how the iteration process takes place.
+
 Iterating fractals to high levels of complexity is a very slow operation. To speed this up, the program stops replacing lines once they have reached a certain length (currently a few pixels). The special level "Infinity" will iterate the fractal until all lines are at or below that length. Accordingly, attempting to reach the infinity level for a template whose lines shrink slowly will take a while and may cause the program to run out of memory. Attempty to reach the infinity level for a template whose lines grow is a Bad Idea.
 
 You can save the results of your iteration to a file by specifying the file name and hitting the "save" button. The path may be either absolute or relative; in the latter case, the base directory is the one with the FractaSketch executable. Make sure you use '\' and not '/' if you're on Windows! When saving, the extension must be ".png"; this will be appended to the filename if it is not already present.
 
 To exit the program, close the main window. Feel free to close the iteration window when you're done with it; it won't stop the program and will come back next time you draw.
 
-=============
 ## Configuring FractaSketch
 
 Some of FractaSketch's parameters can be configured by the user. To edit them, open the "FractaSketch_config.txt" file in the same directory as the FractaSketch executable. To modify a value, simply change the number on the right-hand side of the equals sign.
 
-=============
 ## Changelog:
+##### v0.2.6
+* Add ability to overlay the previous iteration level when iterating
 
 ##### v0.2.5:
 * Add config file
