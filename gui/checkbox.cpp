@@ -68,3 +68,7 @@ void Checkbox::OnKeyPressed(sf::Keyboard::Key key) {
     (void)key;
     return;
 }
+
+bool Checkbox::IsToggled() {
+    return m_isToggled;
+}

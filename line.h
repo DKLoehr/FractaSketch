@@ -36,6 +36,12 @@ public: enum line_type {
     lt_hidden = 6 // Neither shown nor replaced during iterations
 };
 
+public: enum draw_type {
+    dt_default = 0, // Draw lines according to their type
+    dt_simple = 1, // Draw all lines as static
+    dt_overlay = 2 // Draw all lines as dotted and colored
+};
+
 private:
     line_type m_type;
     sf::Vector2f m_start;
@@ -63,7 +69,7 @@ public:
     Transform Match(const Line& base) const;
     Line ApplyTransform(Transform t) const;
 
-    void Draw(sf::RenderTarget& target, bool simple) const;
+    void Draw(sf::RenderTarget& target, draw_type style) const;
 };
 
 

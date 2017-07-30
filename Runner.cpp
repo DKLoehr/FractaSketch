@@ -180,9 +180,9 @@ void Runner::Draw() {
     m_grid.Draw();
 
     if(m_drawingLine)
-        m_line.Draw(m_window, false);
+        m_line.Draw(m_window, Line::dt_default);
 
-    m_base.Draw(m_window, false);
+    m_base.Draw(m_window, Line::dt_default);
 
     m_window.display();
 

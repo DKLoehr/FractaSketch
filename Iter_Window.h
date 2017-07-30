@@ -3,6 +3,7 @@
 
 #include "gui/GUI_Element.h"
 #include "gui/text.h"
+#include "gui/checkbox.h"
 #include "Fractal_Iterator.h"
 
 class Iter_Window {
@@ -13,6 +14,7 @@ private:
     Fractal_Iterator m_iterator;
     InputBox m_input;
     InputBox m_success;
+    Checkbox m_drawPrevious;
     std::vector<GUI_Element*> m_elements;
 
     size_t m_currentLevel;

@@ -32,15 +32,17 @@ sf::Vector2f Line::FromOrigin() const {
     return m_finish - m_start;
 };
 
-void Line::Draw(sf::RenderTarget& target, bool simple) const {
-    if(simple) { // Just draw a straight line
+void Line::Draw(sf::RenderTarget& target, draw_type style) const {
+    if(style == dt_default) {
+        target.draw(m_body);
+    } else if (style == dt_simple) {
         if(m_type == lt_hidden || m_type == lt_base) {
             return; // Don't draw
         }
         sf::Vertex simpleLine[] = {sf::Vertex(m_start, m_color),
                                    sf::Vertex(m_finish, m_color)};
         target.draw(simpleLine, 2, sf::Lines);
-    } else {
+    } else if (style == dt_overlay) {
         target.draw(m_body);
     }
 }

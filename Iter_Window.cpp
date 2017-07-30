@@ -1,6 +1,7 @@
 #include "Iter_Window.h"
 #include "gui/Button.h"
 #include "gui/text.h"
+#include "gui/checkbox.h"
 #include "utils.h"
 #include "constants.h"
 
@@ -10,6 +11,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_iterator(),
     m_input(&window, &font, 110, 30, 300, 15, "File:"),
     m_success(&window, &font, 460, 30, 1000, 15, ""),
+    m_drawPrevious(&window, &font, 1000, 30, "Consective levels", false),
     m_elements(0),
     m_currentLevel(0)
 {
@@ -18,6 +20,7 @@ Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
         m_window.setPosition(sf::Vector2i(0, 0));
         m_input = InputBox(&window, &font, 110, 30, 300, 15, "File:");
         m_success = InputBox(&window, &font, 460, 30, 1000, 15, "");
+        m_drawPrevious = Checkbox(&window, &font, 1000, 30, "Consective levels", false);
     }
     //TODO: Make relative to window & each other
     m_elements.push_back(new Button(&window, &font, 5, 5, 100, 15, "Level 0"));
@@ -43,7 +46,7 @@ Iter_Window::~Iter_Window() {
     }
     m_elements.clear();
 }
-
+#include <iostream> //DEBUGGING, REMOVE
 void Iter_Window::HandleEvents() {
     if(!m_window.isOpen())
         return;
@@ -71,7 +74,7 @@ void Iter_Window::HandleEvents() {
                     sf::RenderTexture tex;
                     tex.create(m_window.getSize().x, m_window.getSize().y);
                     tex.clear(sf::Color::White);
-                    m_iterator.Draw(tex);
+                    m_iterator.Draw(tex, m_drawPrevious.IsToggled());
                     tex.display();
 
                     sf::Image img = tex.getTexture().copyToImage();
@@ -86,6 +89,9 @@ void Iter_Window::HandleEvents() {
                 if(m_input.IsClicked(event.mouseButton.x, event.mouseButton.y)) {
                     m_input.OnClick(event.mouseButton.x, event.mouseButton.y);
                     m_input.SetActive(true);
+                }
+                if(m_drawPrevious.IsClicked(event.mouseButton.x, event.mouseButton.y)) {
+                    m_drawPrevious.OnClick(event.mouseButton.x, event.mouseButton.y);
                 }
             }
             break;
@@ -118,12 +124,13 @@ void Iter_Window::Draw() {
     m_window.clear(sf::Color::White);
 
     m_success.Draw();
-    m_iterator.Draw(m_window);
+    m_iterator.Draw(m_window, m_drawPrevious.IsToggled());
 
     for(auto it = m_elements.begin(); it != m_elements.end(); it++) {
         (*it)->Draw();
     }
     m_input.Draw();
+    m_drawPrevious.Draw();
 
     m_window.display();
 }

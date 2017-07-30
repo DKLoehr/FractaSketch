@@ -62,13 +62,13 @@ Fractal_Element Fractal_Element::ReplaceAll(const Fractal_Template& target) cons
     return newFE;
 }
 
-void Fractal_Element::Draw(sf::RenderTarget& target, bool simple) const {
+void Fractal_Element::Draw(sf::RenderTarget& target, Line::draw_type style) const {
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        line_it->Draw(target, simple);
+        line_it->Draw(target, style);
     }
     auto line_it = statics->begin();
     for(size_t iii = 0; iii < m_statics_end; iii++) {
-        line_it->Draw(target, simple);
+        line_it->Draw(target, style);
         line_it++;
     }
 }

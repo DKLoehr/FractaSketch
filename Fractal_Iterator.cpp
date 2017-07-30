@@ -12,8 +12,11 @@ Fractal_Iterator::~Fractal_Iterator() {
 
 }
 
-void Fractal_Iterator::Draw(sf::RenderTarget& target) {
-    m_levels[m_currentLevel].Draw(target, true);
+void Fractal_Iterator::Draw(sf::RenderTarget& target, bool drawPrevious) {
+    m_levels[m_currentLevel].Draw(target, Line::dt_simple);
+    if(drawPrevious && m_currentLevel > 0) {
+        m_levels[m_currentLevel-1].Draw(target, Line::dt_overlay);
+    }
 }
 
 void Fractal_Iterator::SetBase(Fractal_Template newBase) {

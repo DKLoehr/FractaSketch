@@ -27,7 +27,7 @@ public:
 
     Fractal_Element ReplaceAll(const Fractal_Template& target) const;
 
-    void Draw(sf::RenderTarget& target, bool simple) const;
+    void Draw(sf::RenderTarget& target, Line::draw_type style) const;
     void SetBase(sf::Vector2f start, sf::Vector2f finish);
 
     double BaseLength();

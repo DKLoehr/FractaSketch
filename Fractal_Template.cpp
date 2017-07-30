@@ -211,8 +211,9 @@ Fractal_Template Fractal_Template::TransformAll(Transform t) const {
 }
 
 void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
+    Line::draw_type style = simple ? Line::dt_simple : Line::dt_default;
     for(auto line_it = m_lines.begin(); line_it != m_lines.end(); line_it++) {
-        line_it->Draw(window, simple);
+        line_it->Draw(window, style);
     }
     sf::CircleShape point(TEMPLATE_DOT_RAD);
     point.setFillColor(sf::Color::Black);
@@ -225,7 +226,7 @@ void Fractal_Template::Draw(sf::RenderWindow& window, bool simple) const {
         if(iii == m_activePoint)
             point.setFillColor(sf::Color::Black);
     }
-    m_baseline.Draw(window, simple);
+    m_baseline.Draw(window, style);
 }
 
 void Fractal_Template::DrawBaseline() {

@@ -24,6 +24,8 @@ public:
     void OnClick(double xP, double yP); // Returns true if the checkbox was clicked
     void OnTextEntered(char n); // Does nothing
     void OnKeyPressed(sf::Keyboard::Key key);
+
+    bool IsToggled();
 };
 
 #endif // CHECKBOX_H
