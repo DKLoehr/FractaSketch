@@ -19,6 +19,7 @@ Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font
     m_mouseHeld(false)
 {
     //TODO: Make relative to window & each other
+    // Default window settings: 1200, 724
     // Line Selection Buttons
     m_elements.push_back(new Button(&window, &font, 5, 5, 100, 15, "TopRight(1)"));
     m_elements.push_back(new Button(&window, &font, 110, 5, 100, 15, "BotRight(2)"));
