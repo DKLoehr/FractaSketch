@@ -5,6 +5,12 @@
 #include "utils.h"
 #include "constants.h"
 
+#include <algorithm>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),
     m_font(font),
@@ -78,9 +84,36 @@ void Iter_Window::HandleEvents() {
                     tex.display();
 
                     sf::Image img = tex.getTexture().copyToImage();
-                    std::string filename = GetProperPath(m_input.GetText());
-                    if(filename.length() < 4 || filename.substr(filename.length()-4) != ".png")
-                        filename += ".png";
+                    std::string filename = m_input.GetText();
+#ifdef _WIN32
+                    if (filename.size() == 0) {
+                        TCHAR fn[256];
+                        fn[0] = '\0';
+                        OPENFILENAME ofn = { 0 };
+                        ofn.lStructSize = sizeof(ofn);
+                        ofn.hwndOwner = m_window.getSystemHandle();
+                        ofn.lpstrFile = fn;
+                        ofn.nMaxFile = sizeof(fn) / sizeof(fn[0]);
+                        ofn.lpstrFilter = "PNG image (.png)\0*.png\0All Files\0*.*\0";
+                        ofn.nFilterIndex = 0;
+                        ofn.lpstrFileTitle = NULL;
+                        ofn.nMaxFileTitle = 0;
+                        ofn.lpstrInitialDir = NULL;
+                        ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+
+                        GetSaveFileName(&ofn);
+
+                        filename = fn;
+                    }
+                    else {
+#endif
+                        filename = GetProperPath(filename);
+                        if (filename.length() < 4 || filename.substr(filename.length() - 4) != ".png")
+                            filename += ".png";
+#ifdef _WIN32
+                    }
+#endif
+
                     if (img.saveToFile(filename))
                         m_success.SetText("Image saved!");
                     else
@@ -104,7 +137,12 @@ void Iter_Window::HandleEvents() {
                 UpdateLevel(0);
             } else if(event.key.code == sf::Keyboard::Num0) { // Level Infinity
                 UpdateLevel(ITERATOR_LEVELS+1);
-            } else {
+            } else if(event.key.code == sf::Keyboard::Left) {
+                UpdateLevel(std::max((int)m_currentLevel - 1, 0));
+            } else if (event.key.code == sf::Keyboard::Right) {
+                UpdateLevel(std::min((int)m_currentLevel + 1, ITERATOR_LEVELS + 1));
+            }
+            else {
                 m_input.OnKeyPressed(event.key.code);
             }
             break;
