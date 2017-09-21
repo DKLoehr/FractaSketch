@@ -19,6 +19,8 @@ private:
 
     size_t m_currentLevel;
 
+    void SaveImage();
+
 public:
     Iter_Window(sf::RenderWindow& window, sf::Font& font);
     ~Iter_Window();
