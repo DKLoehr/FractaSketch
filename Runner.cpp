@@ -83,7 +83,7 @@ void Runner::HandleEvents() {
 
             m_success.SetText("");
             if(m_activeBox < m_elements.size()) {
-                    m_elements[m_activeBox]->SetActive(false); // Deactive the active box, if any
+                    m_elements[m_activeBox]->SetActive(false); // Deactiveate the active box, if any
                     m_activeBox = -1;
             }
             if(event.mouseButton.y < GUI_HEIGHT_OFFSET) { // Above grid
@@ -103,24 +103,9 @@ void Runner::HandleEvents() {
                             m_finishedTemplate = false;
                             m_drawingLine = false;
                         } else if(iii == 11) {
-                            if(m_base.LoadFromFile(m_elements[12]->GetText())) {
-                                m_success.SetText("Load Successful!");
-                                m_startedTemplate = true;
-                                m_finishedTemplate = true;
-                                m_drawingLine = false;
-                            } else {
-                                m_success.SetText("Load Failed :(");
-                                m_base.Clear();
-                                m_startedTemplate = false;
-                                m_finishedTemplate = false;
-                                m_drawingLine = false;
-                            }
+                            LoadFile();
                         } else if(iii == 13) {
-                            if(m_base.SaveToFile(m_elements[14]->GetText())) {
-                                m_success.SetText("Save Successful!");
-                            } else {
-                                m_success.SetText("Save Failed :(");
-                            }
+                            SaveFile();
                         } else if(iii == 12 || iii == 14) { // One of the text boxes
                             m_activeBox = iii;
                             m_elements[m_activeBox]->SetActive(true);
@@ -148,10 +133,16 @@ void Runner::HandleEvents() {
                event.key.code <= sf::Keyboard::Num6 &&
                m_activeBox >= m_elements.size()) {
                  UpdateLineType(event.key.code - sf::Keyboard::Num1+1);
-            }
-            else if(event.key.code == sf::Keyboard::Delete ||
+            } else if(event.key.code == sf::Keyboard::Delete ||
                     event.key.code == sf::Keyboard::BackSpace) {
                 m_base.RemoveSelected();
+            } else if(event.key.code == sf::Keyboard::Return) {
+                // If Enter was pressed on a Save/Load button or its text box, do that
+                if(m_activeBox == 11 || m_activeBox == 12) {
+                    LoadFile();
+                } else if(m_activeBox == 13 || m_activeBox == 14) {
+                    SaveFile();
+                }
             } else if(m_activeBox < m_elements.size()) {
                 m_elements[m_activeBox]->OnKeyPressed(event.key.code);
             }
@@ -198,3 +189,25 @@ void Runner::UpdateLineType(int newTypeButton) {
         m_base.ChangeType(m_currentLine);
 }
 
+void Runner::LoadFile() {
+    if(m_base.LoadFromFile(m_elements[12]->GetText())) {
+        m_success.SetText("Load Successful!");
+        m_startedTemplate = true;
+        m_finishedTemplate = true;
+        m_drawingLine = false;
+    } else {
+        m_success.SetText("Load Failed :(");
+        m_base.Clear();
+        m_startedTemplate = false;
+        m_finishedTemplate = false;
+        m_drawingLine = false;
+    }
+}
+
+void Runner::SaveFile() {
+    if(m_base.SaveToFile(m_elements[14]->GetText())) {
+        m_success.SetText("Save Successful!");
+    } else {
+        m_success.SetText("Save Failed :(");
+    }
+}

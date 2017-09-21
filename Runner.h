@@ -28,6 +28,9 @@ private:
 
     bool m_mouseHeld;
 
+    void LoadFile();
+    void SaveFile();
+
 public:
     Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font& font);
     ~Runner();
