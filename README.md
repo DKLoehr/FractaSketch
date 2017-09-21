@@ -60,6 +60,12 @@ To exit the program, close the main window. Feel free to close the iteration win
 Some of FractaSketch's parameters can be configured by the user. To edit them, open the "FractaSketch_config.txt" file in the same directory as the FractaSketch executable. To modify a value, simply change the number on the right-hand side of the equals sign.
 
 ## Changelog:
+##### v0.2.7
+* Fix bug where all characters were accepted as valid text in a text box, and add numbers as valid characters
+* Allow Enter to activate save/load functions from text boxes
+* Left/Right arrow keys can now be used to change iteration levels (by pbfy0)
+* Fractals which grow forever now treat level infinity as level n+1 (by pbfy0)
+
 ##### v0.2.6
 * Add ability to overlay the previous iteration level when iterating
 
