@@ -3,6 +3,10 @@
 #include "gui/button.h"
 #include "gui/text.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 Runner::Runner(sf::RenderWindow& window, sf::RenderWindow& iter_window, sf::Font& font) :
     m_window(window),
     m_font(font),
@@ -103,7 +107,29 @@ void Runner::HandleEvents() {
                             m_finishedTemplate = false;
                             m_drawingLine = false;
                         } else if(iii == 11) {
-                            if(m_base.LoadFromFile(m_elements[12]->GetText())) {
+                            std::string name = m_elements[12]->GetText();
+#ifdef _WIN32
+                            if (name.size() == 0) {
+                                TCHAR fn[256];
+                                fn[0] = '\0';
+                                OPENFILENAME ofn = { 0 };
+                                ofn.lStructSize = sizeof(ofn);
+                                ofn.hwndOwner = m_window.getSystemHandle();
+                                ofn.lpstrFile = fn;
+                                ofn.nMaxFile = sizeof(fn) / sizeof(fn[0]);
+                                ofn.lpstrFilter = "FractaSketch file (.fsk)\0*.fsk\0All Files\0*.*\0";
+                                ofn.nFilterIndex = 0;
+                                ofn.lpstrFileTitle = NULL;
+                                ofn.nMaxFileTitle = 0;
+                                ofn.lpstrInitialDir = NULL;
+                                ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+                                GetOpenFileName(&ofn);
+
+                                name = fn;
+                            }
+#endif
+                            if(m_base.LoadFromFile(name)) {
                                 m_success.SetText("Load Successful!");
                                 m_startedTemplate = true;
                                 m_finishedTemplate = true;
@@ -116,7 +142,29 @@ void Runner::HandleEvents() {
                                 m_drawingLine = false;
                             }
                         } else if(iii == 13) {
-                            if(m_base.SaveToFile(m_elements[14]->GetText())) {
+                            std::string name = m_elements[14]->GetText();
+#ifdef _WIN32
+                            if (name.size() == 0) {
+                                TCHAR fn[256];
+                                fn[0] = '\0';
+                                OPENFILENAME ofn = { 0 };
+                                ofn.lStructSize = sizeof(ofn);
+                                ofn.hwndOwner = m_window.getSystemHandle();
+                                ofn.lpstrFile = fn;
+                                ofn.nMaxFile = sizeof(fn) / sizeof(fn[0]);
+                                ofn.lpstrFilter = "FractaSketch file (.fsk)\0*.fsk\0All Files\0*.*\0";
+                                ofn.nFilterIndex = 0;
+                                ofn.lpstrFileTitle = NULL;
+                                ofn.nMaxFileTitle = 0;
+                                ofn.lpstrInitialDir = NULL;
+                                ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+
+                                GetSaveFileName(&ofn);
+
+                                name = fn;
+                            }
+#endif
+                            if(m_base.SaveToFile(name)) {
                                 m_success.SetText("Save Successful!");
                             } else {
                                 m_success.SetText("Save Failed :(");
