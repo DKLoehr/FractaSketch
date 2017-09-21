@@ -34,7 +34,7 @@ InputBox::InputBox(sf::RenderWindow* window, sf::Font* font, int x, int y, int w
 bool InputBox::IsValid(char n) {
     if(n == 8 // Backspace
        || n == ' ' || n == '!' || (n >= '(' && n <= '/') || (n >= 'A' && n <= 'Z') || (n >= 'a' && n <= 'z')
-       || n == '^' ||  '_' || n == ':' || n == '\\'
+       || n == '^' || n == '_' || n == ':' || n == '\\'
        || n == 127) // Delete
         return true;
     else
