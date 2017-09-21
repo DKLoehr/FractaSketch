@@ -42,3 +42,4 @@ bin/*
 
 FractaSketch_log.txt
 *.bak
+*.fsk
