@@ -4,6 +4,7 @@
 #include "gui/checkbox.h"
 #include "utils.h"
 #include "constants.h"
+#include <algorithm>
 
 Iter_Window::Iter_Window(sf::RenderWindow& window, sf::Font& font) :
     m_window(window),
@@ -46,7 +47,7 @@ Iter_Window::~Iter_Window() {
     }
     m_elements.clear();
 }
-#include <iostream> //DEBUGGING, REMOVE
+
 void Iter_Window::HandleEvents() {
     if(!m_window.isOpen())
         return;
@@ -104,6 +105,10 @@ void Iter_Window::HandleEvents() {
                 UpdateLevel(0);
             } else if(event.key.code == sf::Keyboard::Num0) { // Level Infinity
                 UpdateLevel(ITERATOR_LEVELS+1);
+            } else if(event.key.code == sf::Keyboard::Left) {
+                UpdateLevel(std::max((int)m_currentLevel - 1, 0));
+            } else if (event.key.code == sf::Keyboard::Right) {
+                UpdateLevel(std::min((int)m_currentLevel + 1, ITERATOR_LEVELS + 1));
             } else {
                 m_input.OnKeyPressed(event.key.code);
             }
